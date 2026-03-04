@@ -13,8 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProductClientHub.Application\ProductClientHub.Application.csproj" />
     <ProjectReference Include="..\ProductClientHub.Comunication\ProductClientHub.Communication.csproj" />
     <ProjectReference Include="..\ProductClientHub.Exceptions\ProductClientHub.Exceptions.csproj" />
+    <ProjectReference Include="..\ProductClientHub.Infrastructure\ProductClientHub.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
