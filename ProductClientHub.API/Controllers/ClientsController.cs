@@ -2,7 +2,6 @@
 using ProductClientHub.Application.UseCases.Clients.Register;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
-using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.API.Controllers;
 
@@ -15,21 +14,9 @@ public class ClientsController : ControllerBase
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody] RequestClientJson request, [FromServices] IRegisterClientUseCase useCase)
     {
-        try
-        {
-            var response = await useCase.Execute(request);
+        var response = await useCase.Execute(request);
 
-            return Created(string.Empty, response);
-        }
-        catch (ProductClientHubException ex)
-        {
-            var errors = ex.GetErrors();
-            return BadRequest(new ResponseErrorMessagesJson(errors));
-        }
-        catch
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseErrorMessagesJson("Erro Desconhecido"));
-        }
+        return Created(string.Empty, response);
     }
 
     [HttpPut]

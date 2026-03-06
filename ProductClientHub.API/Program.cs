@@ -1,3 +1,4 @@
+using ProductClientHub.API.Filters;
 using ProductClientHub.Application;
 using ProductClientHub.Infrastructure;
 
@@ -6,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+
+//Add global exception filter
+builder.Services.AddMvc(option => option.Filters.Add(typeof(ExceptionFilter)));
 
 //Inject dependencies
 builder.Services.AddAplication();
