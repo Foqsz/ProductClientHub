@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProductClientHub.Domain.Repositories.Client.Register;
+using ProductClientHub.Domain.Repositories.UnitOfWork;
+using ProductClientHub.Infrastructure.DataAcess.Repositories;
+using ProductClientHub.Infrastructure.DataAcess.UnitOfWork;
 using ProductClientHub.Infrastructure.Database;
 using ProductClientHub.Infrastructure.Extensions;
 
@@ -16,7 +20,10 @@ public static class DependencyInjectionExtension
 
     private static void AddRepositories(IServiceCollection services)
     {
-        
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IClientWriteOnlyRepository, ClientWriteOnlyRepository>();
+        services.AddScoped<IClientReadOnlyRepository, ClientReadOnlyRepository>();
     }
 
     private static void AddDbContext_SqlLite(IServiceCollection services, IConfiguration configuration)
