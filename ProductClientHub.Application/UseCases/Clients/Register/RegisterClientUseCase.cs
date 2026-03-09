@@ -32,7 +32,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
 
         if (userExist.IsTrue())
         {
-            throw new EmailAlreadyExistsException("Já existe uma conta cadastrada com o e-mail informado.");
+            throw new EmailAlreadyExistsException(ResourceMessagesExceptions.EMAIL_INVALID);
         }
 
         var entity = request.Adapt<Client>();

@@ -1,4 +1,5 @@
 using ProductClientHub.API.Filters;
+using ProductClientHub.API.Middlewares;
 using ProductClientHub.Application;
 using ProductClientHub.Infrastructure;
 
@@ -23,6 +24,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<LocalizationMiddleware>();
 
 app.UseHttpsRedirection();
 
