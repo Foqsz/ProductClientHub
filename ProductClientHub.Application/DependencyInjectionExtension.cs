@@ -16,6 +16,7 @@ public static class DependencyInjectionExtension
     {
         MapConfigurations.Configure();
     }
+
     private static void AddUseCases(IServiceCollection services)
     {
         services.AddScoped<IRegisterClientUseCase, RegisterClientUseCase>();
