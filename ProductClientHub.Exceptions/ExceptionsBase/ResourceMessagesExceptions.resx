@@ -125,7 +125,7 @@
     <value>Esse e-mail já está cadastrado em nosso sistema.</value>
     <comment>Erro ao registrar um client com um e-mail que já tem no db</comment>
   </data>
-  <data name="CLIENT_NOTFOUND" xml:space="preserve">
+  <data name="CLIENT_NOCONTENT" xml:space="preserve">
     <value>Cliente não encontrado.</value>
     <comment>Mensagem exibida ao buscar cliente pelo ID</comment>
   </data>
