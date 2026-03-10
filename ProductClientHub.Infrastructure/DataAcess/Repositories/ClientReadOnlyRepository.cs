@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProductClientHub.Domain.Entities;
 using ProductClientHub.Domain.Repositories.Client.Register;
 using ProductClientHub.Infrastructure.Database;
 
@@ -16,5 +17,10 @@ public class ClientReadOnlyRepository : IClientReadOnlyRepository
     public async Task<bool> EmailAlreadyExists(string email)
     {
         return await _context.Clients.AnyAsync(c => c.Email == email);
+    }
+
+    public async Task<IList<Client>> GetAll()
+    {
+        return await _context.Clients.ToListAsync();
     }
 }
