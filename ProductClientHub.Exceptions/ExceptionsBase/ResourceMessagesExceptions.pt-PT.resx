@@ -123,7 +123,7 @@
   <data name="EMAIL_INVALID" xml:space="preserve">
     <value>Este e-mail já está registado no nosso sistema.</value>
   </data>
-  <data name="CLIENT_NOTFOUND" xml:space="preserve">
+  <data name="CLIENT_NOCONTENT" xml:space="preserve">
     <value>Cliente não encontrado.</value>
   </data>
   <data name="PRODUCT_EMPTY" xml:space="preserve">

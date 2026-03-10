@@ -63,9 +63,9 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         /// <summary>
         ///   Looks up a localized string similar to Cliente não encontrado..
         /// </summary>
-        public static string CLIENT_NOTFOUND {
+        public static string CLIENT_NOCONTENT {
             get {
-                return ResourceManager.GetString("CLIENT_NOTFOUND", resourceCulture);
+                return ResourceManager.GetString("CLIENT_NOCONTENT", resourceCulture);
             }
         }
         
