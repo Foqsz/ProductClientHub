@@ -23,7 +23,7 @@ public class LocalizationMiddleware
         if (requestedCulture.NotEmpty()
             && supportedLanguage.Exists(c => c.Name.Equals(requestedCulture)))
         {
-            cultureInfo = new CultureInfo(requestedCulture);
+            cultureInfo = new CultureInfo(requestedCulture!);
         }
 
         CultureInfo.CurrentCulture = cultureInfo;
