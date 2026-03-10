@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductClientHub.Application.UseCases.Clients.Register;
+using ProductClientHub.Application.UseCases.GetAll;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
 
@@ -27,10 +28,12 @@ public class ClientsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public IActionResult GetAll()
+    [ProducesResponseType(typeof(ResponseAllClientsJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> GetAll([FromServices] IGetAllClientsUseCase useCase)
     {
-        return Ok();
+        var response = await useCase.Execute();
+        return Ok(response);
     }
 
     [HttpGet]
