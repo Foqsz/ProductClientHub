@@ -10,5 +10,9 @@ public static class MapConfigurations
         TypeAdapterConfig<RequestClientJson, Domain.Entities.Client>
             .NewConfig()
             .Ignore(c => c.Id);
+
+        TypeAdapterConfig<RequestProductJson, Domain.Entities.Product>
+            .NewConfig()
+            .Ignore(p => p.Id);
     }
 }
