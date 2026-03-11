@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using ProductClientHub.Communication.Requests;
 
-namespace ProductClientHub.Application.UseCases.Clients.Register;
+namespace ProductClientHub.Application.UseCases.Clients.SharedValidator;
 
-public class RegisterClientValidator : AbstractValidator<RequestClientJson>
+public class RequestClientValidator : AbstractValidator<RequestClientJson>
 {
-    public RegisterClientValidator()
+    public RequestClientValidator()
     {
         RuleFor(client => client.Name)
             .NotEmpty()

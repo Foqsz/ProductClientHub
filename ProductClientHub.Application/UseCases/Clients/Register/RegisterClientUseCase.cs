@@ -1,9 +1,10 @@
 ﻿using Mapster;
+using ProductClientHub.Application.UseCases.Clients.SharedValidator;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Entities;
 using ProductClientHub.Domain.Extensions;
-using ProductClientHub.Domain.Repositories.Client.Register;
+using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
@@ -48,7 +49,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
 
     private void Validate(RequestClientJson request)
     {
-        var validator = new RegisterClientValidator();
+        var validator = new RequestClientValidator();
 
         var validationResult = validator.Validate(request);
 

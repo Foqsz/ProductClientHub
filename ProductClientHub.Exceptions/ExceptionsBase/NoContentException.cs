@@ -2,9 +2,9 @@
 
 namespace ProductClientHub.Exceptions.ExceptionsBase;
 
-public class ClientNoContentException : ProductClientHubException
+public class NoContentException : ProductClientHubException
 {
-    public ClientNoContentException(string errorMessage) : base(errorMessage)
+    public NoContentException(string errorMessage) : base(errorMessage)
     {
     }
 

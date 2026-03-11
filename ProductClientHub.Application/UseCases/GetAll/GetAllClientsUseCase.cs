@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Extensions;
-using ProductClientHub.Domain.Repositories.Client.Register;
+using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.Application.UseCases.GetAll;
@@ -20,7 +20,7 @@ public class GetAllClientsUseCase : IGetAllClientsUseCase
         var clients = await _clientReadOnlyRepository.GetAll();
 
         if (clients.Any().IsFalse())
-            throw new ClientNoContentException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
+            throw new NoContentException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
         
         var mapping = clients.Adapt<List<ResponseClientJson>>();
 
