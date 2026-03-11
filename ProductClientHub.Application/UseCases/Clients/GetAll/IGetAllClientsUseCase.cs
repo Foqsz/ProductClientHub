@@ -1,6 +1,6 @@
 ﻿using ProductClientHub.Communication.Responses;
 
-namespace ProductClientHub.Application.UseCases.GetAll;
+namespace ProductClientHub.Application.UseCases.Clients.GetAll;
 
 public interface IGetAllClientsUseCase
 {
