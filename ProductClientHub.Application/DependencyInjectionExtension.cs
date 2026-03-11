@@ -2,6 +2,7 @@
 using ProductClientHub.Application.Services.Mapping;
 using ProductClientHub.Application.UseCases.Clients.Register;
 using ProductClientHub.Application.UseCases.GetAll;
+using ProductClientHub.Application.UseCases.Update;
 
 namespace ProductClientHub.Application;
 
@@ -22,5 +23,6 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<IRegisterClientUseCase, RegisterClientUseCase>();
         services.AddScoped<IGetAllClientsUseCase, GetAllClientsUseCase>();
+        services.AddScoped<IUpdateClientUseCase, UpdateClientUseCase>();
     }
 }

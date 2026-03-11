@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ProductClientHub.Domain.Repositories.Client.Register;
+using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Infrastructure.DataAcess.Repositories;
 using ProductClientHub.Infrastructure.DataAcess.UnitOfWork;

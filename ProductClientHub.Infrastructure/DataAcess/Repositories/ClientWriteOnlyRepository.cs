@@ -1,4 +1,5 @@
-﻿using ProductClientHub.Domain.Repositories.Client.Register;
+﻿using ProductClientHub.Domain.Entities;
+using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Infrastructure.Database;
 
 namespace ProductClientHub.Infrastructure.DataAcess.Repositories;
@@ -15,5 +16,13 @@ public class ClientWriteOnlyRepository : IClientWriteOnlyRepository
     public async Task Add(Domain.Entities.Client client)
     {
         await _dbContext.Clients.AddAsync(client);
+    }
+
+    public async Task<Client> Update(Client client)
+    {
+        var clientDb = await _dbContext.Clients.FindAsync(client.Id);
+        _dbContext.Clients.Update(clientDb!);
+
+        return clientDb!;
     }
 }
