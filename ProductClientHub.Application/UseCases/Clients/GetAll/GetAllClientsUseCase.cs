@@ -4,7 +4,7 @@ using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
-namespace ProductClientHub.Application.UseCases.GetAll;
+namespace ProductClientHub.Application.UseCases.Clients.GetAll;
 
 public class GetAllClientsUseCase : IGetAllClientsUseCase
 {

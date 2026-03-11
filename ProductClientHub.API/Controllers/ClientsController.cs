@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductClientHub.Application.UseCases.Clients.GetAll;
 using ProductClientHub.Application.UseCases.Clients.Register;
-using ProductClientHub.Application.UseCases.GetAll;
-using ProductClientHub.Application.UseCases.Update;
+using ProductClientHub.Application.UseCases.Clients.Update;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
 
@@ -24,8 +24,8 @@ public class ClientsController : ControllerBase
     [HttpPut]
     [Route("{clientId:guid}")]
     [ProducesResponseType(typeof(ResponseClientUpdatedJson), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Update([FromRoute] Guid clientId, [FromBody] RequestClientJson request, [FromServices] IUpdateClientUseCase useCase)
     {
         var response = await useCase.Execute(clientId, request);

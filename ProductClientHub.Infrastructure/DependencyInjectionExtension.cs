@@ -2,8 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProductClientHub.Domain.Repositories.Client;
+using ProductClientHub.Domain.Repositories.Product;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
-using ProductClientHub.Infrastructure.DataAcess.Repositories;
+using ProductClientHub.Infrastructure.DataAcess.Repositories.Clients;
+using ProductClientHub.Infrastructure.DataAcess.Repositories.Products;
 using ProductClientHub.Infrastructure.DataAcess.UnitOfWork;
 using ProductClientHub.Infrastructure.Database;
 using ProductClientHub.Infrastructure.Extensions;
@@ -22,8 +24,12 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        //clients
         services.AddScoped<IClientWriteOnlyRepository, ClientWriteOnlyRepository>();
         services.AddScoped<IClientReadOnlyRepository, ClientReadOnlyRepository>();
+
+        //products
+        services.AddScoped<IProductsWriteOnlyRepository, ProductsWriteOnlyRepository>();
     }
 
     private static void AddDbContext_SqlLite(IServiceCollection services, IConfiguration configuration)

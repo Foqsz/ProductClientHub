@@ -2,7 +2,7 @@
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Infrastructure.Database;
 
-namespace ProductClientHub.Infrastructure.DataAcess.Repositories;
+namespace ProductClientHub.Infrastructure.DataAcess.Repositories.Clients;
 
 public class ClientWriteOnlyRepository : IClientWriteOnlyRepository
 {

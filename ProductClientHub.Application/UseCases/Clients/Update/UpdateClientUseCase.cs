@@ -6,7 +6,7 @@ using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
-namespace ProductClientHub.Application.UseCases.Update;
+namespace ProductClientHub.Application.UseCases.Clients.Update;
 
 public class UpdateClientUseCase : IUpdateClientUseCase
 {
