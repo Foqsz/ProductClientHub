@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductClientHub.Domain.Entities;
-using ProductClientHub.Domain.Repositories.Client.Register;
+using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Infrastructure.Database;
 
 namespace ProductClientHub.Infrastructure.DataAcess.Repositories;
@@ -23,4 +23,12 @@ public class ClientReadOnlyRepository : IClientReadOnlyRepository
     {
         return await _context.Clients.ToListAsync();
     }
+
+    public async Task<Client> GetById(Guid clientId)
+    {
+        var client = await _context.Clients.Where(client => client.Id == clientId).FirstOrDefaultAsync();
+
+        return client!;
+    }
+
 }
