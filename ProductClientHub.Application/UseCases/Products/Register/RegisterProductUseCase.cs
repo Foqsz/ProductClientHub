@@ -25,7 +25,7 @@ public class RegisterProductUseCase : IRegisterProductUseCase
         _clientReadOnlyRepository = clientReadOnlyRepository;
     }
 
-    public async Task<ResponseProductJson> Execute(Guid clientId, RequestProductJson request)
+    public async Task<ResponseShortProductJson> Execute(Guid clientId, RequestProductJson request)
     {
         await Validate(clientId, request);
 
@@ -36,7 +36,7 @@ public class RegisterProductUseCase : IRegisterProductUseCase
         await _productsWriteOnlyRepository.Add(entity);
         await _unitOfWork.Commit();
 
-        return new ResponseProductJson()
+        return new ResponseShortProductJson()
         {
             Id = entity.Id,
             Name = entity.Name,

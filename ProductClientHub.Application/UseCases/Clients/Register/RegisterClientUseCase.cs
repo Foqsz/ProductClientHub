@@ -25,7 +25,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
         _clientReadOnlyRepository = clientReadOnlyRepository;
     }
 
-    public async Task<ResponseClientJson> Execute(RequestClientJson request)
+    public async Task<ResponseShortClientJson> Execute(RequestClientJson request)
     {
         Validate(request);
 
@@ -40,7 +40,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
         await _clientWriteOnlyRepository.Add(entity);
         await _unitOfWork.Commit();
 
-        return new ResponseClientJson
+        return new ResponseShortClientJson
         {
             Id = entity.Id,
             Name = request.Name

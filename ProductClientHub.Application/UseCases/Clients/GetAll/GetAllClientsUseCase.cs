@@ -22,7 +22,7 @@ public class GetAllClientsUseCase : IGetAllClientsUseCase
         if (clients.Any().IsFalse())
             throw new NoContentException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
         
-        var mapping = clients.Adapt<List<ResponseClientJson>>();
+        var mapping = clients.Adapt<List<ResponseShortClientJson>>();
 
         return new ResponseAllClientsJson
         {

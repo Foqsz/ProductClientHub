@@ -5,5 +5,5 @@ namespace ProductClientHub.Application.UseCases.Clients.Register;
 
 public interface IRegisterClientUseCase
 {
-    Task<ResponseClientJson> Execute(RequestClientJson request);
+    Task<ResponseShortClientJson> Execute(RequestClientJson request);
 }
