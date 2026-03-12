@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ProductClientHub.Application.Services.Mapping;
 using ProductClientHub.Application.UseCases.Clients.GetAll;
+using ProductClientHub.Application.UseCases.Clients.GetById;
 using ProductClientHub.Application.UseCases.Clients.Register;
 using ProductClientHub.Application.UseCases.Clients.Update;
 using ProductClientHub.Application.UseCases.Products.Register;
@@ -26,6 +27,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IRegisterClientUseCase, RegisterClientUseCase>();
         services.AddScoped<IGetAllClientsUseCase, GetAllClientsUseCase>();
         services.AddScoped<IUpdateClientUseCase, UpdateClientUseCase>();
+        services.AddScoped<IGetClientByIdUseCase, GetClientByIdUseCase>();
 
         //products
         services.AddScoped<IRegisterProductUseCase, RegisterProductUseCase>();
