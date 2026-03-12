@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductClientHub.Application.UseCases.Clients.GetAll;
+using ProductClientHub.Application.UseCases.Clients.GetById;
 using ProductClientHub.Application.UseCases.Clients.Register;
 using ProductClientHub.Application.UseCases.Clients.Update;
 using ProductClientHub.Communication.Requests;
@@ -12,7 +13,7 @@ namespace ProductClientHub.API.Controllers;
 public class ClientsController : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType(typeof(ResponseClientJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseShortClientJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody] RequestClientJson request, [FromServices] IRegisterClientUseCase useCase)
     {
@@ -43,12 +44,14 @@ public class ClientsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Route("{clientId:guid}")]
+    [ProducesResponseType(typeof(RequestClientJson), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult GetById([FromRoute] Guid id)
+    public async Task<IActionResult> GetById([FromRoute] Guid clientId, [FromServices] IGetClientByIdUseCase useCase)
     {
-        return Ok();
+        var response = await useCase.Execute(clientId);
+
+        return Ok(response);
     }
 
     [HttpDelete]
