@@ -2,5 +2,5 @@
 
 public class ResponseAllClientsJson
 {
-    public IList<ResponseClientJson> Clients { get; set; } = [];
+    public IList<ResponseShortClientJson> Clients { get; set; } = [];
 }

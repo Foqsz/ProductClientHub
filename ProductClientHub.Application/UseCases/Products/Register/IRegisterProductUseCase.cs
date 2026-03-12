@@ -5,5 +5,5 @@ namespace ProductClientHub.Application.UseCases.Products.Register;
 
 public interface IRegisterProductUseCase
 {
-    Task<ResponseProductJson> Execute(Guid clientId, RequestProductJson request);
+    Task<ResponseShortProductJson> Execute(Guid clientId, RequestProductJson request);
 }
