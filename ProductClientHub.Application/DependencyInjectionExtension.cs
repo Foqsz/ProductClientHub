@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ProductClientHub.Application.Services.Mapping;
+using ProductClientHub.Application.UseCases.Clients.Delete;
 using ProductClientHub.Application.UseCases.Clients.GetAll;
 using ProductClientHub.Application.UseCases.Clients.GetById;
 using ProductClientHub.Application.UseCases.Clients.Register;
@@ -28,6 +29,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGetAllClientsUseCase, GetAllClientsUseCase>();
         services.AddScoped<IUpdateClientUseCase, UpdateClientUseCase>();
         services.AddScoped<IGetClientByIdUseCase, GetClientByIdUseCase>();
+        services.AddScoped<IDeleteClientUseCase, DeleteClientUseCase>();
 
         //products
         services.AddScoped<IRegisterProductUseCase, RegisterProductUseCase>();

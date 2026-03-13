@@ -30,19 +30,12 @@ public class RegisterProductUseCase : IRegisterProductUseCase
         await Validate(clientId, request);
 
         var entity = request.Adapt<Domain.Entities.Product>();
-        entity.Id = entity.Id;
         entity.ClientId = clientId;
 
         await _productsWriteOnlyRepository.Add(entity);
         await _unitOfWork.Commit();
 
-        return new ResponseShortProductJson()
-        {
-            Id = entity.Id,
-            Name = entity.Name,
-            Brand = entity.Brand,
-            Price = entity.Price
-        };
+        return entity.Adapt<ResponseShortProductJson>();
     }
 
     private async Task Validate(Guid clientId, RequestProductJson request)

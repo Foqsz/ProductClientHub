@@ -40,11 +40,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
         await _clientWriteOnlyRepository.Add(entity);
         await _unitOfWork.Commit();
 
-        return new ResponseShortClientJson
-        {
-            Id = entity.Id,
-            Name = request.Name
-        };
+        return entity.Adapt<ResponseShortClientJson>();
     }
 
     private void Validate(RequestClientJson request)
