@@ -1,4 +1,5 @@
-﻿using ProductClientHub.Application.UseCases.Clients.SharedValidator;
+﻿using Mapster;
+using ProductClientHub.Application.UseCases.Clients.SharedValidator;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Extensions;
@@ -38,11 +39,7 @@ public class UpdateClientUseCase : IUpdateClientUseCase
         await _clientWriteOnlyRepository.Update(client);
         await _unitOfWork.Commit();
 
-        return new ResponseClientUpdatedJson()
-        {
-            Name = request.Name,
-            Email = request.Email
-        };
+        return client.Adapt<ResponseClientUpdatedJson>();
     }
 
     private void Validate(RequestClientJson request)

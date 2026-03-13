@@ -1,4 +1,5 @@
-﻿using ProductClientHub.Communication.Responses;
+﻿using Mapster;
+using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
@@ -20,10 +21,6 @@ public class GetClientByIdUseCase : IGetClientByIdUseCase
         if (clientExist is null)
             throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
 
-        return new ResponseClientJson()
-        {
-            Name = clientExist.Name,
-            Email = clientExist.Email
-        };
+        return clientExist.Adapt<ResponseClientJson>();
     }
 }
