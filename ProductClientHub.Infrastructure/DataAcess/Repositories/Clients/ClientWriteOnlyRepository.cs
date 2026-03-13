@@ -1,10 +1,11 @@
-﻿using ProductClientHub.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductClientHub.Domain.Entities;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Infrastructure.Database;
 
 namespace ProductClientHub.Infrastructure.DataAcess.Repositories.Clients;
 
-public class ClientWriteOnlyRepository : IClientWriteOnlyRepository
+public class ClientWriteOnlyRepository : IClientWriteOnlyRepository, IDeleteClientRepository
 {
     private readonly ProductClientHubDbContext _dbContext;
 
@@ -16,6 +17,12 @@ public class ClientWriteOnlyRepository : IClientWriteOnlyRepository
     public async Task Add(Domain.Entities.Client client)
     {
         await _dbContext.Clients.AddAsync(client);
+    }
+
+    public async Task Delete(Guid clientId)
+    {
+        var client = await _dbContext.Clients.Where(client => client.Id == clientId).FirstOrDefaultAsync();
+        _dbContext.Clients.Remove(client!);
     }
 
     public async Task<Client> Update(Client client)
