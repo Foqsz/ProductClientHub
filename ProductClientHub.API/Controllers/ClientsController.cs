@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductClientHub.Application.UseCases.Clients.Delete;
 using ProductClientHub.Application.UseCases.Clients.GetAll;
 using ProductClientHub.Application.UseCases.Clients.GetById;
 using ProductClientHub.Application.UseCases.Clients.Register;
@@ -55,9 +56,13 @@ public class ClientsController : ControllerBase
     }
 
     [HttpDelete]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public IActionResult Delete()
+    [Route("${clientId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete([FromRoute] Guid clientId, [FromServices] IDeleteClientUseCase useCase)
     {
-        return Ok();
+        await useCase.Execute(clientId);
+
+        return NoContent();
     }
 }
