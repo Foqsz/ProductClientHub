@@ -26,9 +26,11 @@ public class ClientReadOnlyRepository : IClientReadOnlyRepository
 
     public async Task<Client> GetById(Guid clientId)
     {
-        var client = await _context.Clients.Where(client => client.Id == clientId).FirstOrDefaultAsync();
+        var client = await _context.Clients
+            .Where(client => client.Id == clientId)
+            .Include(client => client.Products)
+            .FirstOrDefaultAsync();
 
         return client!;
     }
-
 }
