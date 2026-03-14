@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductClientHub.Application.UseCases.Products.GetAll;
 using ProductClientHub.Application.UseCases.Products.Register;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
@@ -19,5 +20,15 @@ public class ProductsController : ControllerBase
         var response = await useCase.Execute(clientId, request);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ResponseProductsJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAll([FromServices] IGetAllProductsUseCase useCase)
+    {
+        var response = await useCase.Execute();
+        return Ok(response);
     }
 }
