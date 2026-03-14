@@ -5,6 +5,7 @@ using ProductClientHub.Application.UseCases.Clients.GetAll;
 using ProductClientHub.Application.UseCases.Clients.GetById;
 using ProductClientHub.Application.UseCases.Clients.Register;
 using ProductClientHub.Application.UseCases.Clients.Update;
+using ProductClientHub.Application.UseCases.Products.GetAll;
 using ProductClientHub.Application.UseCases.Products.Register;
 
 namespace ProductClientHub.Application;
@@ -33,5 +34,6 @@ public static class DependencyInjectionExtension
 
         //products
         services.AddScoped<IRegisterProductUseCase, RegisterProductUseCase>();
+        services.AddScoped<IGetAllProductsUseCase, GetAllProductsUseCase>();
     }
 }

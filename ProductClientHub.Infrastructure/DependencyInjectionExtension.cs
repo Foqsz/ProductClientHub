@@ -31,6 +31,7 @@ public static class DependencyInjectionExtension
 
         //products
         services.AddScoped<IProductsWriteOnlyRepository, ProductsWriteOnlyRepository>();
+        services.AddScoped<IProductsReadOnlyRepository, ProductsReadOnlyRepository>();
     }
 
     private static void AddDbContext_SqlLite(IServiceCollection services, IConfiguration configuration)

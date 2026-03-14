@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using ProductClientHub.Communication.Requests;
+using ProductClientHub.Communication.Responses;
 
 namespace ProductClientHub.Application.Services.Mapping;
 
@@ -14,5 +15,13 @@ public static class MapConfigurations
         TypeAdapterConfig<RequestProductJson, Domain.Entities.Product>
             .NewConfig()
             .Ignore(p => p.Id);
+
+        TypeAdapterConfig<ResponseProductsJson, Domain.Entities.Product>
+            .NewConfig()
+            .Map(dest => dest.Id, src => src.Products.Select(p => p.Id).FirstOrDefault())
+            .Map(dest => dest.Name, src => src.Products.Select(p => p.Name).FirstOrDefault())
+            .Map(dest => dest.Price, src => src.Products.Select(p => p.Price).FirstOrDefault())
+            .Map(dest => dest.Brand, src => src.Products.Select(p => p.Brand).FirstOrDefault())
+            .Map(dest => dest.Client, src => src);
     }
 }
