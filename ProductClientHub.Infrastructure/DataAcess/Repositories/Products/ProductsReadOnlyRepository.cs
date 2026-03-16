@@ -20,4 +20,14 @@ public class ProductsReadOnlyRepository : IProductsReadOnlyRepository
             .Include(p => p.Client)
             .ToListAsync();
     }
+
+    public async Task<Product> GetById(Guid productId)
+    {
+        var product = await _dbContext.Products
+            .Where(p => p.Id == productId)
+            .Include(p => p.Client)
+            .FirstOrDefaultAsync();
+
+        return product!;
+    }
 }
