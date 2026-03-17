@@ -3,7 +3,7 @@ using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
-namespace ProductClientHub.Application.UseCases.Clients.GetById;
+namespace ProductClientHub.Application.UseCases.Users.GetById;
 
 public class GetClientByIdUseCase : IGetClientByIdUseCase
 {

@@ -3,7 +3,7 @@ using ProductClientHub.Domain.Entities;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Infrastructure.Database;
 
-namespace ProductClientHub.Infrastructure.DataAcess.Repositories.Clients;
+namespace ProductClientHub.Infrastructure.DataAcess.Repositories.Users;
 
 public class ClientReadOnlyRepository : IClientReadOnlyRepository
 {
@@ -16,17 +16,17 @@ public class ClientReadOnlyRepository : IClientReadOnlyRepository
 
     public async Task<bool> EmailAlreadyExists(string email)
     {
-        return await _context.Clients.AnyAsync(c => c.Email == email);
+        return await _context.Users.AnyAsync(c => c.Email == email);
     }
 
     public async Task<IList<Client>> GetAll()
     {
-        return await _context.Clients.ToListAsync();
+        return await _context.Users.ToListAsync();
     }
 
     public async Task<Client> GetById(Guid clientId)
     {
-        var client = await _context.Clients
+        var client = await _context.Users
             .Where(client => client.Id == clientId)
             .Include(client => client.Products)
             .FirstOrDefaultAsync();

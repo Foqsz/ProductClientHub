@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using ProductClientHub.Application.UseCases.Clients.SharedValidator;
+using ProductClientHub.Application.UseCases.Users.SharedValidator;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Extensions;
@@ -7,7 +7,7 @@ using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
-namespace ProductClientHub.Application.UseCases.Clients.Update;
+namespace ProductClientHub.Application.UseCases.Users.Update;
 
 public class UpdateClientUseCase : IUpdateClientUseCase
 {

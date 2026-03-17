@@ -1,6 +1,6 @@
 ﻿using ProductClientHub.Communication.Responses;
 
-namespace ProductClientHub.Application.UseCases.Clients.GetById;
+namespace ProductClientHub.Application.UseCases.Users.GetById;
 
 public interface IGetClientByIdUseCase
 {
