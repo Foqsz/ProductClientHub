@@ -23,5 +23,13 @@ public static class MapConfigurations
             .Map(dest => dest.Price, src => src.Products.Select(p => p.Price).FirstOrDefault())
             .Map(dest => dest.Brand, src => src.Products.Select(p => p.Brand).FirstOrDefault())
             .Map(dest => dest.Client, src => src);
+
+        TypeAdapterConfig<ResponseShortProductJson, Domain.Entities.Product>
+            .NewConfig()
+            .Map(dest => dest.Id, src => src.Id)
+            .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.Price, src => src.Price)
+            .Map(dest => dest.Brand, src => src.Brand)
+            .Map(dest => dest.Client, src => src);
     }
 }
