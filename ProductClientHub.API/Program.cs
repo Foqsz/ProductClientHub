@@ -2,6 +2,8 @@ using ProductClientHub.API.Filters;
 using ProductClientHub.API.Middlewares;
 using ProductClientHub.Application;
 using ProductClientHub.Infrastructure;
+using ProductClientHub.Infrastructure.Extensions;
+using ProductClientHub.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,10 +65,21 @@ app.UseMiddleware<LocalizationMiddleware>();
 
 app.UseHttpsRedirection();
 
-app.MapOpenApi("/doc/{documentName}.json");
+//app.MapOpenApi("/doc/{documentName}.json");
 
 app.UseAuthorization();
 
 app.MapControllers();
 
+MigrateDatabase();
+
 app.Run();
+
+void MigrateDatabase()
+{
+    var connectionString = builder.Configuration.ConnectionString();
+
+    var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+
+    DataBaseMigration.Migrate(serviceScope.ServiceProvider, connectionString);
+}

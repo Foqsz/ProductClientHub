@@ -1,4 +1,4 @@
-﻿namespace ProductClientHub.Application.UseCases.Clients.Delete;
+﻿namespace ProductClientHub.Application.UseCases.Users.Delete;
 
 public interface IDeleteClientUseCase
 {

@@ -2,7 +2,7 @@
 using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
-namespace ProductClientHub.Application.UseCases.Clients.Delete;
+namespace ProductClientHub.Application.UseCases.Users.Delete;
 
 public class DeleteClientUseCase : IDeleteClientUseCase
 {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ProductClientHub.Application.Services.Mapping;
-using ProductClientHub.Application.UseCases.Clients.Delete;
-using ProductClientHub.Application.UseCases.Clients.GetAll;
-using ProductClientHub.Application.UseCases.Clients.GetById;
-using ProductClientHub.Application.UseCases.Clients.Register;
-using ProductClientHub.Application.UseCases.Clients.Update;
+using ProductClientHub.Application.UseCases.Users.Delete;
+using ProductClientHub.Application.UseCases.Users.GetAll;
+using ProductClientHub.Application.UseCases.Users.GetById;
+using ProductClientHub.Application.UseCases.Users.Register;
+using ProductClientHub.Application.UseCases.Users.Update;
 using ProductClientHub.Application.UseCases.GetById;
 using ProductClientHub.Application.UseCases.Products.GetAll;
 using ProductClientHub.Application.UseCases.Products.Register;

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using ProductClientHub.Communication.Requests;
 
-namespace ProductClientHub.Application.UseCases.Clients.SharedValidator;
+namespace ProductClientHub.Application.UseCases.Users.SharedValidator;
 
 public class RequestClientValidator : AbstractValidator<RequestClientJson>
 {

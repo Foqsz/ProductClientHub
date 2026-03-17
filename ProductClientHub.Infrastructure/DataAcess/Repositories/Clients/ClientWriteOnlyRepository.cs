@@ -3,7 +3,7 @@ using ProductClientHub.Domain.Entities;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Infrastructure.Database;
 
-namespace ProductClientHub.Infrastructure.DataAcess.Repositories.Clients;
+namespace ProductClientHub.Infrastructure.DataAcess.Repositories.Users;
 
 public class ClientWriteOnlyRepository : IClientWriteOnlyRepository, IDeleteClientRepository
 {
@@ -16,19 +16,19 @@ public class ClientWriteOnlyRepository : IClientWriteOnlyRepository, IDeleteClie
 
     public async Task Add(Domain.Entities.Client client)
     {
-        await _dbContext.Clients.AddAsync(client);
+        await _dbContext.Users.AddAsync(client);
     }
 
     public async Task Delete(Guid clientId)
     {
-        var client = await _dbContext.Clients.Where(client => client.Id == clientId).FirstOrDefaultAsync();
-        _dbContext.Clients.Remove(client!);
+        var client = await _dbContext.Users.Where(client => client.Id == clientId).FirstOrDefaultAsync();
+        _dbContext.Users.Remove(client!);
     }
 
     public async Task<Client> Update(Client client)
     {
-        var clientDb = await _dbContext.Clients.FindAsync(client.Id);
-        _dbContext.Clients.Update(clientDb!);
+        var clientDb = await _dbContext.Users.FindAsync(client.Id);
+        _dbContext.Users.Update(clientDb!);
 
         return clientDb!;
     }

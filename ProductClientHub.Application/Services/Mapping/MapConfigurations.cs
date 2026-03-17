@@ -10,7 +10,8 @@ public static class MapConfigurations
     {
         TypeAdapterConfig<RequestClientJson, Domain.Entities.Client>
             .NewConfig()
-            .Ignore(c => c.Id);
+            .Ignore(c => c.Id)
+            .Ignore(c => c.Password);
 
         TypeAdapterConfig<RequestProductJson, Domain.Entities.Product>
             .NewConfig()
