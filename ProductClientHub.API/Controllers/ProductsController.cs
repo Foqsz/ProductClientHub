@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductClientHub.Application.UseCases.GetById;
+using ProductClientHub.Application.UseCases.Products.Delete;
 using ProductClientHub.Application.UseCases.Products.GetAll;
 using ProductClientHub.Application.UseCases.Products.Register;
 using ProductClientHub.Communication.Requests;
@@ -21,6 +22,16 @@ public class ProductsController : ControllerBase
         var response = await useCase.Execute(clientId, request);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpDelete]
+    [Route("{productId:guid}/client/{clientId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete([FromRoute] Guid productId, [FromRoute] Guid clientId, [FromServices] IDeleteProductUseCase useCase)
+    {
+        await useCase.Execute(clientId, productId);
+        return NoContent();
     }
 
     [HttpGet]

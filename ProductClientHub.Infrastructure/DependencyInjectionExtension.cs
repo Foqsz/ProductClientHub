@@ -38,6 +38,7 @@ public static class DependencyInjectionExtension
         //products
         services.AddScoped<IProductsWriteOnlyRepository, ProductsWriteOnlyRepository>();
         services.AddScoped<IProductsReadOnlyRepository, ProductsReadOnlyRepository>();
+        services.AddScoped<IDeleteProductOnlyRepository, ProductsWriteOnlyRepository>();
     }
 
     private static void AddDbContext_PostgreSql(IServiceCollection services, IConfiguration configuration)
