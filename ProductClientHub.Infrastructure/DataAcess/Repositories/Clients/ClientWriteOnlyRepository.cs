@@ -25,11 +25,15 @@ public class ClientWriteOnlyRepository : IClientWriteOnlyRepository, IDeleteClie
         _dbContext.Users.Remove(client!);
     }
 
-    public async Task<Client> Update(Client client)
+    public async Task<Client?> Update(Client client)
     {
         var clientDb = await _dbContext.Users.FindAsync(client.Id);
-        _dbContext.Users.Update(clientDb!);
 
-        return clientDb!;
+        if (clientDb is null)
+            return null;
+
+        _dbContext.Users.Update(clientDb);
+
+        return clientDb;
     }
 }
