@@ -1,5 +1,8 @@
 <Solution>
   <Project Path="ProductClientHub.API/ProductClientHub.API.csproj" />
+  <Project Path="ProductClientHub.Application/ProductClientHub.Application.csproj" Id="4545dc91-0c9b-4cab-93ed-b423b1213fe1" />
   <Project Path="ProductClientHub.Comunication/ProductClientHub.Communication.csproj" />
+  <Project Path="ProductClientHub.Domain/ProductClientHub.Domain.csproj" Id="7dbcd20d-c01d-4149-b465-730c5a9860a3" />
   <Project Path="ProductClientHub.Exceptions/ProductClientHub.Exceptions.csproj" />
+  <Project Path="ProductClientHub.Infrastructure/ProductClientHub.Infrastructure.csproj" Id="3864d85e-0d55-46ed-b4c2-725e018a5d35" />
 </Solution>
