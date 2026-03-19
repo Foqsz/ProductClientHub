@@ -14,7 +14,7 @@ public class ClientWriteOnlyRepository : IClientWriteOnlyRepository, IDeleteClie
         _dbContext = dbContext;
     }
 
-    public async Task Add(Domain.Entities.Client client)
+    public async Task Add(Client client)
     {
         await _dbContext.Users.AddAsync(client);
     }
@@ -27,13 +27,22 @@ public class ClientWriteOnlyRepository : IClientWriteOnlyRepository, IDeleteClie
 
     public async Task<Client?> Update(Client client)
     {
-        var clientDb = await _dbContext.Users.FindAsync(client.Id);
+        var createdOn = await _dbContext.Users
+            .Where(x => x.Id == client.Id)
+            .Select(x => x.CreatedOn)
+            .FirstOrDefaultAsync();
 
-        if (clientDb is null)
-            return null;
+        // Isso aqui foi necessário para evitar que o EF Core tente atualizar a coluna CreatedOn,
+        // que é gerada automaticamente pelo banco de dados e não deve ser modificada.
+        // Ao definir o valor de CreatedOn para o valor original do banco de dados,
+        // garantimos que ele permaneça inalterado durante a atualização do cliente.
+        client.CreatedOn = DateTime.SpecifyKind(createdOn, DateTimeKind.Utc);
 
-        _dbContext.Users.Update(clientDb);
+        _dbContext.Users.Update(client);
 
-        return clientDb;
+        // Garantir que a propriedade CreatedOn não seja marcada como modificada, para que o EF Core não tente atualizá-la no banco de dados.
+        _dbContext.Entry(client).Property(x => x.CreatedOn).IsModified = false;
+
+        return client;
     }
 }
