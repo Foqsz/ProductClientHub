@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductClientHub.Application.UseCases.Clients.ChangePassword;
 using ProductClientHub.Application.UseCases.Users.Delete;
 using ProductClientHub.Application.UseCases.Users.GetAll;
 using ProductClientHub.Application.UseCases.Users.GetById;
@@ -21,6 +22,17 @@ public class ClientsController : ControllerBase
         var response = await useCase.Execute(request);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpPost]
+    [Route("changePassword/{clientId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ChangePassword([FromRoute] Guid clientId, [FromBody] RequestChangePassword request, [FromServices] IChangePasswordUseCase useCase)
+    {
+        await useCase.Execute(clientId, request);
+
+        return NoContent();
     }
 
     [HttpPut]
