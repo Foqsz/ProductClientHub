@@ -9,6 +9,7 @@ using ProductClientHub.Application.UseCases.GetById;
 using ProductClientHub.Application.UseCases.Products.GetAll;
 using ProductClientHub.Application.UseCases.Products.Register;
 using ProductClientHub.Application.UseCases.Products.Delete;
+using ProductClientHub.Application.UseCases.Clients.ChangePassword;
 
 namespace ProductClientHub.Application;
 
@@ -33,6 +34,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IUpdateClientUseCase, UpdateClientUseCase>();
         services.AddScoped<IGetClientByIdUseCase, GetClientByIdUseCase>();
         services.AddScoped<IDeleteClientUseCase, DeleteClientUseCase>();
+        services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
 
         //products
         services.AddScoped<IRegisterProductUseCase, RegisterProductUseCase>();
