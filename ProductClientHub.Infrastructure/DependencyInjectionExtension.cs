@@ -2,16 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using NpgsqlTypes;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.Product;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Domain.Security.Cryptography;
-using ProductClientHub.Infrastructure.DataAcess.Repositories.Users;
 using ProductClientHub.Infrastructure.DataAcess.Repositories.Products;
+using ProductClientHub.Infrastructure.DataAcess.Repositories.Users;
 using ProductClientHub.Infrastructure.DataAcess.UnitOfWork;
 using ProductClientHub.Infrastructure.Database;
 using ProductClientHub.Infrastructure.Extensions;
 using ProductClientHub.Infrastructure.Security.Cryptography;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.PostgreSQL;
 using System.Reflection;
 
 namespace ProductClientHub.Infrastructure;
@@ -23,6 +28,11 @@ public static class DependencyInjectionExtension
         AddRepositories(services);
         AddDbContext_PostgreSql(services, configuration);
         AddFluentMigrator_PostgreSql(services, configuration);
+    }
+
+    public static void AddLogger(this IHostBuilder builder, IConfiguration configuration)
+    {
+        AddSerilog(builder, configuration);
     }
 
     private static void AddRepositories(IServiceCollection services)
@@ -59,5 +69,34 @@ public static class DependencyInjectionExtension
                 .WithGlobalConnectionString(connectionString)
                 .ScanIn(Assembly.Load("ProductClientHub.Infrastructure")).For.All()
             );
+    }
+
+    private static void AddSerilog(IHostBuilder builder, IConfiguration configuration)
+    {
+        var outputTemplate = "{Timestamp:dd-MM-yyyy HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}";
+        var connectionString = configuration.ConnectionString();
+        var tableName = "logs";
+        var fileName = "logs/log-.txt";
+
+        IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
+        {
+            {"message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
+            {"message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
+            {"level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            {"raise_date", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
+            {"exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
+            {"properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
+            {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
+            {"machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.ToString, NpgsqlDbType.Text, "l") }
+        };
+
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console(outputTemplate: outputTemplate)
+            .WriteTo.File(fileName, rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate, restrictedToMinimumLevel: LogEventLevel.Error)
+            .WriteTo.PostgreSQL(connectionString, tableName, columnWriters, restrictedToMinimumLevel: LogEventLevel.Error , needAutoCreateTable: true)
+            .Enrich.FromLogContext()
+            .CreateLogger();
+
+        builder.UseSerilog();
     }
 }
