@@ -61,6 +61,15 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Senha inválida..
+        /// </summary>
+        public static string CHANGE_PASSWORD_INVALID {
+            get {
+                return ResourceManager.GetString("CHANGE_PASSWORD_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cliente não encontrado..
         /// </summary>
         public static string CLIENT_NOCONTENT {
