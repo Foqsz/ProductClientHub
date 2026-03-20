@@ -51,7 +51,7 @@ builder.Services.AddMvc(option => option.Filters.Add(typeof(ExceptionFilter)));
 //Inject dependencies
 builder.Services.AddAplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-
+builder.Host.AddLogger(builder.Configuration);
 
 var app = builder.Build();
 

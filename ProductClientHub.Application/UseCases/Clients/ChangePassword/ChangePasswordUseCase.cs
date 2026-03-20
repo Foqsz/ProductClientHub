@@ -1,4 +1,3 @@
-﻿using ProductClientHub.Application.UseCases.Users.SharedValidator;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Client;

@@ -40,7 +40,7 @@ public class ClientsController : ControllerBase
     [ProducesResponseType(typeof(ResponseClientUpdatedJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update([FromRoute] Guid clientId, [FromBody] RequestClientJson request, [FromServices] IUpdateClientUseCase useCase)
+    public async Task<IActionResult> Update([FromRoute] Guid clientId, [FromBody] RequestShortClientJson request, [FromServices] IUpdateClientUseCase useCase)
     {
         var response = await useCase.Execute(clientId, request);
 

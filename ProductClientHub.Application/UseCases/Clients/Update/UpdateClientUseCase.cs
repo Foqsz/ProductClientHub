@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using ProductClientHub.Application.UseCases.Clients.Update;
 using ProductClientHub.Application.UseCases.Users.SharedValidator;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
@@ -24,7 +25,7 @@ public class UpdateClientUseCase : IUpdateClientUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ResponseClientUpdatedJson> Execute(Guid clientId, RequestClientJson request)
+    public async Task<ResponseClientUpdatedJson> Execute(Guid clientId, RequestShortClientJson request)
     {
         Validate(request);
 
@@ -42,9 +43,9 @@ public class UpdateClientUseCase : IUpdateClientUseCase
         return client.Adapt<ResponseClientUpdatedJson>();
     }
 
-    private void Validate(RequestClientJson request)
+    private void Validate(RequestShortClientJson request)
     {
-        var validator = new RequestClientValidator();
+        var validator = new UpdateClientValidator();
 
         var validationResult = validator.Validate(request);
 
