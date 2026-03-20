@@ -1,4 +1,4 @@
-﻿using ProductClientHub.Communication.Requests;
+using ProductClientHub.Communication.Requests;
 using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
@@ -30,9 +30,6 @@ public class ChangePasswordUseCase : IChangePasswordUseCase
         Validate(request);
 
         var client = await _clientReadOnlyRepository.GetById(clientId);
-
-        if(client is null)
-            throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
 
         var changeVerify = _passwordEncripter.IsValid(request.NewPassword, client.Password);
 

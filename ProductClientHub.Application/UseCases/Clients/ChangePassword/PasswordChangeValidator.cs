@@ -10,7 +10,7 @@ public class PasswordChangeValidator : AbstractValidator<RequestChangePassword>
         RuleFor(x => x.CurrentPassword)
             .NotEmpty()
             .WithMessage("Senha atual é necessário.");
-
+        
         RuleFor(x => x.NewPassword)
             .NotEmpty()
             .WithMessage("Nova senha é necessária.")
