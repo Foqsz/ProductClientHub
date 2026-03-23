@@ -71,6 +71,7 @@ O projeto adota uma **arquitetura em camadas** organizada em três projetos dist
 | [C#](https://learn.microsoft.com/dotnet/csharp/) | 13 | Linguagem |
 | [Swagger / Scalar](https://swagger.io/) | — | Documentação interativa |
 | [Entity Framework Core](https://learn.microsoft.com/ef/core/) | — | ORM *(se aplicável)* |
+| [Serilog](https://serilog.net/) | - Logs
 
 ---
 
@@ -202,5 +203,5 @@ Backend Developer · Estudante de Análise e Desenvolvimento de Sistemas
 ---
 
 <div align="center">
-  <sub>Desenvolvido durante os estudos na trilha backend da <a href="https://rocketseat.com.br">Rocketseat</a> 🚀</sub>
+  <sub>Desenvolvido durante os estudos na trilha backend da <a href="https://rocketseat.com.br">Rocketseat e aprimorado.</a> 🚀</sub>
 </div>
