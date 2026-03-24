@@ -14,9 +14,9 @@ public class ClientReadOnlyRepository : IClientReadOnlyRepository
         _context = context;
     }
 
-    public async Task<bool> EmailAlreadyExists(string email)
+    public async Task<Client?> EmailAlreadyExists(string email)
     {
-        return await _context.Users.AnyAsync(c => c.Email == email);
+        return await _context.Users.Where(c => c.Email == email).FirstOrDefaultAsync();
     }
 
     public async Task<IList<Client>> GetAll()
@@ -24,13 +24,11 @@ public class ClientReadOnlyRepository : IClientReadOnlyRepository
         return await _context.Users.ToListAsync();
     }
 
-    public async Task<Client> GetById(Guid clientId)
+    public async Task<Client?> GetById(Guid clientId)
     {
-        var client = await _context.Users
+        return await _context.Users
             .Where(client => client.Id == clientId)
             .Include(client => client.Products)
             .FirstOrDefaultAsync();
-
-        return client!;
     }
 }

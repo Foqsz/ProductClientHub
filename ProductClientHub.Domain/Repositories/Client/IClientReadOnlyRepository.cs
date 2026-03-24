@@ -2,7 +2,7 @@
 
 public interface IClientReadOnlyRepository
 {
-    Task<bool> EmailAlreadyExists(string email);
+    Task<Entities.Client?> EmailAlreadyExists(string email);
     Task<IList<Entities.Client>> GetAll();
-    Task<Entities.Client> GetById(Guid clientId);
+    Task<Entities.Client?> GetById(Guid clientId);
 }
