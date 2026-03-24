@@ -35,7 +35,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
 
         var userExist = await _clientReadOnlyRepository.EmailAlreadyExists(request.Email);
 
-        if (userExist.IsTrue())
+        if (userExist is not null)
         {
             throw new EmailAlreadyExistsException(ResourceMessagesExceptions.EMAIL_INVALID);
         }
