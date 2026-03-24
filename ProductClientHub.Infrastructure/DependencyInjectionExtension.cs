@@ -18,6 +18,9 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.PostgreSQL;
 using System.Reflection;
+using ProductClientHub.Domain.Security.Tokens;
+using ProductClientHub.Infrastructure.Security.Tokens.Acess.Generator;
+using ProductClientHub.Infrastructure.Security.Tokens.Acess.Validator;
 
 namespace ProductClientHub.Infrastructure;
 
@@ -28,6 +31,7 @@ public static class DependencyInjectionExtension
         AddRepositories(services);
         AddDbContext_PostgreSql(services, configuration);
         AddFluentMigrator_PostgreSql(services, configuration);
+        AddTokens(services, configuration);
     }
 
     public static void AddLogger(this IHostBuilder builder, IConfiguration configuration)
@@ -50,6 +54,17 @@ public static class DependencyInjectionExtension
         services.AddScoped<IProductsReadOnlyRepository, ProductsReadOnlyRepository>();
         services.AddScoped<IDeleteProductOnlyRepository, ProductsWriteOnlyRepository>();
         services.AddScoped<IUploadProductOnlyRepository, ProductsWriteOnlyRepository>();
+    }
+
+    private static void AddTokens(IServiceCollection services, IConfiguration configuration)
+    {
+        var expirationTimeMinutes = configuration.GetValue<uint>("Jwt:ExpirationTimeMinutes");
+        var signingKey = configuration.GetValue<string>("Jwt:SigningKey");
+
+        services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator(expirationTimeMinutes, signingKey!));
+        services.AddScoped<IAccessTokenValidator>(option => new JwtTokenValidator(signingKey!));
+
+        //services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
     }
 
     private static void AddDbContext_PostgreSql(IServiceCollection services, IConfiguration configuration)
