@@ -135,7 +135,4 @@
   <data name="PRODUCT_INVALID" xml:space="preserve">
     <value>Product invalid.</value>
   </data>
-  <data name="CHANGE_PASSWORD_INVALID" xml:space="preserve">
-    <value>Invalid password.</value>
-  </data>
 </root>

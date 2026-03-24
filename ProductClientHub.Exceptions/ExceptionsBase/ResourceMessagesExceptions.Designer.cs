@@ -97,6 +97,15 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to E-mail ou senha inválidos..
+        /// </summary>
+        public static string PASSWORD_INVALID {
+            get {
+                return ResourceManager.GetString("PASSWORD_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O produto é obrigatório..
         /// </summary>
         public static string PRODUCT_EMPTY {

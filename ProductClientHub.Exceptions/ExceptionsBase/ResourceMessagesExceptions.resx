@@ -141,8 +141,4 @@
     <value>Produto inválido.</value>
     <comment>Erro ao registrar um produto fora dos requisitos</comment>
   </data>
-  <data name="CHANGE_PASSWORD_INVALID" xml:space="preserve">
-    <value>Senha inválida.</value>
-    <comment>Alteração de senha inválida.</comment>
-  </data>
 </root>
