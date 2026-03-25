@@ -31,10 +31,13 @@ public class ChangePasswordUseCase : IChangePasswordUseCase
 
         var client = await _clientReadOnlyRepository.GetById(clientId);
 
+        if(client is null)
+            throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
+
         var changeVerify = _passwordEncripter.IsValid(request.NewPassword, client.Password);
 
         if(changeVerify.IsTrue())
-            throw new ChangePasswordException(ResourceMessagesExceptions.CHANGE_PASSWORD_INVALID);
+            throw new ChangePasswordException(ResourceMessagesExceptions.PASSWORD_INVALID);
 
         client.Password = _passwordEncripter.Encrypt(request.NewPassword);
 

@@ -32,11 +32,17 @@ public static class DependencyInjectionExtension
         AddDbContext_PostgreSql(services, configuration);
         AddFluentMigrator_PostgreSql(services, configuration);
         AddTokens(services, configuration);
+        AddPasswordEncrpter(services);
     }
 
     public static void AddLogger(this IHostBuilder builder, IConfiguration configuration)
     {
         AddSerilog(builder, configuration);
+    }
+
+    private static void AddPasswordEncrpter(IServiceCollection services)
+    {
+        services.AddScoped<IPasswordEncripter, BCryptNet>();
     }
 
     private static void AddRepositories(IServiceCollection services)
@@ -47,7 +53,6 @@ public static class DependencyInjectionExtension
         services.AddScoped<IClientWriteOnlyRepository, ClientWriteOnlyRepository>();
         services.AddScoped<IClientReadOnlyRepository, ClientReadOnlyRepository>();
         services.AddScoped<IDeleteClientRepository, ClientWriteOnlyRepository>();
-        services.AddScoped<IPasswordEncripter, BCryptNet>();
 
         //products
         services.AddScoped<IProductsWriteOnlyRepository, ProductsWriteOnlyRepository>();
