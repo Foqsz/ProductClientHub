@@ -19,6 +19,11 @@ public class ClientReadOnlyRepository : IClientReadOnlyRepository
         return await _context.Users.Where(c => c.Email == email).FirstOrDefaultAsync();
     }
 
+    public async Task<bool> ExistActiveClientWithIdentifier(Guid clientIdentifier)
+    {
+        return await _context.Users.Where(c => c.Id == clientIdentifier && c.Active).AnyAsync();
+    }
+
     public async Task<IList<Client>> GetAll()
     {
         return await _context.Users.ToListAsync();
