@@ -16,13 +16,17 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition(AUTHENTICATION_TYPE, new OpenApiSecurityScheme
     {
-        Description = @"JWT Authorization header using the Bearer scheme
-                      Enter 'Bearer' [space] and then your token in the text input below
-                      Example: 'Bearer 123456abcdef'",
         Name = "Authorization",
+        Description = $"JWT Authorization header using the Bearer scheme.",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = AUTHENTICATION_TYPE
+        Type = SecuritySchemeType.Http,
+        Scheme = AUTHENTICATION_TYPE,
+        BearerFormat = "JWT"
+    });
+
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference(AUTHENTICATION_TYPE, document)] = []
     });
 });
 
