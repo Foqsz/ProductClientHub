@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ProductClientHub.API.Attributes;
 using ProductClientHub.Application.UseCases.Clients.ChangePassword;
 using ProductClientHub.Application.UseCases.Users.Delete;
 using ProductClientHub.Application.UseCases.Users.GetAll;
@@ -11,6 +13,7 @@ using ProductClientHub.Communication.Responses;
 namespace ProductClientHub.API.Controllers;
 
 [Route("api/[controller]")]
+[AuthenticationUser]
 [ApiController]
 public class ClientsController : ControllerBase
 {

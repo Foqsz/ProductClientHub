@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductClientHub.API.Attributes;
 using ProductClientHub.Application.UseCases.GetById;
 using ProductClientHub.Application.UseCases.Products.Delete;
 using ProductClientHub.Application.UseCases.Products.GetAll;
@@ -10,6 +11,7 @@ using ProductClientHub.Communication.Responses;
 namespace ProductClientHub.API.Controllers;
 
 [Route("api/[controller]")]
+[AuthenticationUser]
 [ApiController]
 public class ProductsController : ControllerBase
 {
