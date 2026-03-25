@@ -61,15 +61,6 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Senha inválida..
-        /// </summary>
-        public static string CHANGE_PASSWORD_INVALID {
-            get {
-                return ResourceManager.GetString("CHANGE_PASSWORD_INVALID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cliente não encontrado..
         /// </summary>
         public static string CLIENT_NOCONTENT {
@@ -97,7 +88,16 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail ou senha inválidos..
+        ///   Looks up a localized string similar to Token Inválido..
+        /// </summary>
+        public static string NO_TOKEN {
+            get {
+                return ResourceManager.GetString("NO_TOKEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Senha inválida..
         /// </summary>
         public static string PASSWORD_INVALID {
             get {
@@ -129,6 +129,15 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         public static string PRODUCT_NOTFOUND {
             get {
                 return ResourceManager.GetString("PRODUCT_NOTFOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Você não tem permissão..
+        /// </summary>
+        public static string USER_WITHOUT_PERMISSION_ACCESS_RESOURCE {
+            get {
+                return ResourceManager.GetString("USER_WITHOUT_PERMISSION_ACCESS_RESOURCE", resourceCulture);
             }
         }
     }
