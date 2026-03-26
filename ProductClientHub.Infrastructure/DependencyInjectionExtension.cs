@@ -21,6 +21,8 @@ using System.Reflection;
 using ProductClientHub.Domain.Security.Tokens;
 using ProductClientHub.Infrastructure.Security.Tokens.Acess.Generator;
 using ProductClientHub.Infrastructure.Security.Tokens.Acess.Validator;
+using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Infrastructure.Services;
 
 namespace ProductClientHub.Infrastructure;
 
@@ -33,6 +35,7 @@ public static class DependencyInjectionExtension
         AddFluentMigrator_PostgreSql(services, configuration);
         AddTokens(services, configuration);
         AddPasswordEncrpter(services);
+        AddLoggedUser(services);
     }
 
     public static void AddLogger(this IHostBuilder builder, IConfiguration configuration)
@@ -71,6 +74,8 @@ public static class DependencyInjectionExtension
 
         //services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
     }
+
+    private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
 
     private static void AddDbContext_PostgreSql(IServiceCollection services, IConfiguration configuration)
     {
