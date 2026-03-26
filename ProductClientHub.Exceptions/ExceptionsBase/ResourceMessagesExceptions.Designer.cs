@@ -97,6 +97,15 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Você não está logado e não pode fazer a requisição..
+        /// </summary>
+        public static string NOT_LOGGED {
+            get {
+                return ResourceManager.GetString("NOT_LOGGED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Senha inválida..
         /// </summary>
         public static string PASSWORD_INVALID {

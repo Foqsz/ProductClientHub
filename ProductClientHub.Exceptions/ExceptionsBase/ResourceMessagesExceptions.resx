@@ -151,4 +151,7 @@
   <data name="PASSWORD_INVALID" xml:space="preserve">
     <value>Senha inválida.</value>
   </data>
+  <data name="NOT_LOGGED" xml:space="preserve">
+    <value>Você não está logado e não pode fazer a requisição.</value>
+  </data>
 </root>
