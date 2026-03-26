@@ -28,7 +28,7 @@ jobs:
         run: |
           dotnet sonarscanner begin \
             /k:"Foqsz_ProductClientHub" \
-            /o:"foqsz" \
+            /o:"foqsz-1" \
             /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
