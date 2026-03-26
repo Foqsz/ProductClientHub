@@ -1,7 +1,9 @@
 using Microsoft.OpenApi;
 using ProductClientHub.API.Filters;
 using ProductClientHub.API.Middlewares;
+using ProductClientHub.API.Token;
 using ProductClientHub.Application;
+using ProductClientHub.Domain.Security.Tokens;
 using ProductClientHub.Infrastructure;
 using ProductClientHub.Infrastructure.Extensions;
 using ProductClientHub.Infrastructure.Migrations;
@@ -72,6 +74,9 @@ builder.Services.AddMvc(option => option.Filters.Add(typeof(ExceptionFilter)));
 builder.Services.AddAplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Host.AddLogger(builder.Configuration);
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
