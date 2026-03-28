@@ -71,7 +71,7 @@ public class ClientsController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("${clientId:guid}")]
+    [Route("{clientId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete([FromRoute] Guid clientId, [FromServices] IDeleteClientUseCase useCase)

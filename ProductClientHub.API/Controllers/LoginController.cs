@@ -11,6 +11,7 @@ public class LoginController : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(typeof(ResponseTokenJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> DoLogin([FromBody] RequestLoginJson request, [FromServices] IDoLoginUseCase useCase)
     {
         var response = await useCase.Execute(request);
