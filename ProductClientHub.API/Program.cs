@@ -78,6 +78,15 @@ builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        policy => policy
+            .WithOrigins("http://127.0.0.1:5500")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -89,6 +98,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<LocalizationMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 //app.MapOpenApi("/doc/{documentName}.json");
 
