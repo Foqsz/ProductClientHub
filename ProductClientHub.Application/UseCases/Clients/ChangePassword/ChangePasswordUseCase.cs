@@ -45,7 +45,7 @@ public class ChangePasswordUseCase : IChangePasswordUseCase
         await _unitOfWork.Commit();
     }
 
-    private void Validate(RequestChangePassword request)
+    private static void Validate(RequestChangePassword request)
     {
         var validator = new PasswordChangeValidator();
 

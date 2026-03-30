@@ -50,7 +50,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
         return entity.Adapt<ResponseShortClientJson>();
     }
 
-    private void Validate(RequestClientJson request)
+    private static void Validate(RequestClientJson request)
     {
         var validator = new RequestClientValidator();
 

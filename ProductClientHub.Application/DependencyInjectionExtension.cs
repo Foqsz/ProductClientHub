@@ -20,10 +20,10 @@ public static class DependencyInjectionExtension
     public static void AddAplication(this IServiceCollection services)
     {
         AddUseCases(services);
-        AddMapping(services);
+        AddMapping();
     }
 
-    private static void AddMapping(IServiceCollection services)
+    private static void AddMapping()
     {
         MapConfigurations.Configure();
     }

@@ -43,7 +43,7 @@ public class UpdateClientUseCase : IUpdateClientUseCase
         return client.Adapt<ResponseClientUpdatedJson>();
     }
 
-    private void Validate(RequestShortClientJson request)
+    private static void Validate(RequestShortClientJson request)
     {
         var validator = new UpdateClientValidator();
 

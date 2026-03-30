@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using ProductClientHub.Communication.Responses;
+using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Product;
 using ProductClientHub.Domain.Services.LoggedUser;
 using ProductClientHub.Exceptions.ExceptionsBase;
@@ -21,12 +22,12 @@ public class GetAllProductsUseCase : IGetAllProductsUseCase
     {
         var user = await _loggedUser.User();
 
-        if(user is null)
+        if (user is null)
             throw new UserNotLoggedException(ResourceMessagesExceptions.NOT_LOGGED);
 
         var products = await _productReadOnlyRepository.GetAll();
 
-        if (products is null || !products.Any())
+        if (products is null || products.Any().IsFalse())
             throw new NotFoundException(ResourceMessagesExceptions.PRODUCT_NOTFOUND);
 
         return new ResponseProductsJson

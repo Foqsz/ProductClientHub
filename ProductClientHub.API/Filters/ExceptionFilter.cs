@@ -21,7 +21,7 @@ public class ExceptionFilter : IExceptionFilter
         }
     }
 
-    private void ThrowUnknowError(ExceptionContext context)
+    private static void ThrowUnknowError(ExceptionContext context)
     {
         context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Result = new ObjectResult(new ResponseErrorMessagesJson("Erro Desconecido"));
