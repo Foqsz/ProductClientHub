@@ -1,8 +1,18 @@
 <Solution>
-  <Project Path="ProductClientHub.API/ProductClientHub.API.csproj" />
-  <Project Path="ProductClientHub.Application/ProductClientHub.Application.csproj" Id="4545dc91-0c9b-4cab-93ed-b423b1213fe1" />
-  <Project Path="ProductClientHub.Comunication/ProductClientHub.Communication.csproj" />
-  <Project Path="ProductClientHub.Domain/ProductClientHub.Domain.csproj" Id="7dbcd20d-c01d-4149-b465-730c5a9860a3" />
-  <Project Path="ProductClientHub.Exceptions/ProductClientHub.Exceptions.csproj" />
-  <Project Path="ProductClientHub.Infrastructure/ProductClientHub.Infrastructure.csproj" Id="3864d85e-0d55-46ed-b4c2-725e018a5d35" />
+  <Folder Name="/src/">
+    <Project Path="ProductClientHub.API/ProductClientHub.API.csproj" />
+    <Project Path="ProductClientHub.Application/ProductClientHub.Application.csproj" Id="4545dc91-0c9b-4cab-93ed-b423b1213fe1" />
+    <Project Path="ProductClientHub.Domain/ProductClientHub.Domain.csproj" Id="7dbcd20d-c01d-4149-b465-730c5a9860a3" />
+    <Project Path="ProductClientHub.Infrastructure/ProductClientHub.Infrastructure.csproj" Id="3864d85e-0d55-46ed-b4c2-725e018a5d35" />
+  </Folder>
+  <Folder Name="/src/shared/">
+    <Project Path="ProductClientHub.Comunication/ProductClientHub.Communication.csproj" />
+    <Project Path="ProductClientHub.Exceptions/ProductClientHub.Exceptions.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="CommonTestUtilities/CommonTestUtilities.csproj" Id="7f064691-5f88-43c5-9339-581b0718e1d7" />
+    <Project Path="UseCase.Test/UseCase.Test.csproj" Id="7f8433b2-986a-481e-8ccc-a56eb56b426d" />
+    <Project Path="Validators.Test/Validators.Test.csproj" Id="c82fcdfc-e34a-43c4-ba4f-39cf398241c7" />
+    <Project Path="WebApi.Test/WebApi.Test.csproj" Id="79d61c32-e0b3-4b80-bbda-d070e156dfef" />
+  </Folder>
 </Solution>
