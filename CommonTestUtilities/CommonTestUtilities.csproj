@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProductClientHub.Comunication\ProductClientHub.Communication.csproj" />
     <ProjectReference Include="..\ProductClientHub.Domain\ProductClientHub.Domain.csproj" />
     <ProjectReference Include="..\ProductClientHub.Infrastructure\ProductClientHub.Infrastructure.csproj" />
   </ItemGroup>
@@ -500,10 +501,6 @@
 
   <ItemGroup>
     <None Remove="C:\Users\vinic\.nuget\packages\net.ibm.data.db2\9.0.0.300\buildTransitive\clidriver\bin\concrt140.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Requests\" />
   </ItemGroup>
 
 </Project>

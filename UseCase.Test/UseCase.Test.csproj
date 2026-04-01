@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommonTestUtilities\CommonTestUtilities.csproj" />
+    <ProjectReference Include="..\ProductClientHub.Application\ProductClientHub.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
