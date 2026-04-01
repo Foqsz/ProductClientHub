@@ -1,6 +1,8 @@
 ﻿using CommonTestUtilities.Entities;
-using CommonTestUtilities.Requests;
+using CommonTestUtilities.Repositories;
 using ProductClientHub.Application.UseCases.Users.GetAll;
+using ProductClientHub.Exceptions.ExceptionsBase;
+using Shouldly;
 
 namespace UseCase.Test.Client.GetAll;
 
@@ -9,15 +11,39 @@ public class GetAllClientUseCaseTest
     [Fact]
     public async Task GetAllClientUseCaseTest_Sucess()
     {
-        (var newUser, var password) = ClientBuilder.Build();
+        (var newUser, _) = ClientBuilder.Build();
 
-        var request = RequestClientJsonBuilder.Build(newUser.Name, newUser.Email, password);
+        var useCase = CreateUseCase([newUser]);
+
+        var result = await useCase.Execute();
+
+        result.ShouldNotBeNull();
+        result.Clients.ShouldNotBeNull();
     }
 
-    private async GetAllClientsUseCase GetUseCase()
+    [Fact]
+    public async Task GetAllClientUseCaseTest_EmptyList()
     {
-        var repository = ClientRepositoryBuilder.Build(); 
+        (var newUser, _) = ClientBuilder.Build();
+        newUser = null;
 
-        return useCase;
+        var useCase = CreateUseCase([newUser]);
+
+        var result = await Should.ThrowAsync<NoContentException>(async () =>
+        {
+            await useCase.Execute();
+        });
+
+        result.Message.ShouldBe(ResourceMessagesExceptions.CLIENT_NOCONTENT);
+    }
+
+    private static GetAllClientsUseCase CreateUseCase(IList<ProductClientHub.Domain.Entities.Client?> clients)
+    {
+        var repository = new ClientReadOnlyRepositoryBuilder().Build(); 
+
+        if(clients is not null)
+            repository.GetAll();
+
+        return new GetAllClientsUseCase(repository);
     }
 }
