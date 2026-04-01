@@ -88,6 +88,33 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Token Inválido..
+        /// </summary>
+        public static string NO_TOKEN {
+            get {
+                return ResourceManager.GetString("NO_TOKEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Você não está logado e não pode fazer a requisição..
+        /// </summary>
+        public static string NOT_LOGGED {
+            get {
+                return ResourceManager.GetString("NOT_LOGGED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Senha inválida..
+        /// </summary>
+        public static string PASSWORD_INVALID {
+            get {
+                return ResourceManager.GetString("PASSWORD_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O produto é obrigatório..
         /// </summary>
         public static string PRODUCT_EMPTY {
@@ -111,6 +138,15 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         public static string PRODUCT_NOTFOUND {
             get {
                 return ResourceManager.GetString("PRODUCT_NOTFOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Você não tem permissão..
+        /// </summary>
+        public static string USER_WITHOUT_PERMISSION_ACCESS_RESOURCE {
+            get {
+                return ResourceManager.GetString("USER_WITHOUT_PERMISSION_ACCESS_RESOURCE", resourceCulture);
             }
         }
     }

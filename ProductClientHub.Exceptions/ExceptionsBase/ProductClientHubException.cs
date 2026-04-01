@@ -5,7 +5,7 @@ namespace ProductClientHub.Exceptions.ExceptionsBase;
 public abstract class ProductClientHubException : SystemException
 {
     //base para chamar o construtor da classe pai (SystemException) e passar a mensagem de erro para ele
-    public ProductClientHubException(string errorMessage) : base(errorMessage) 
+    protected ProductClientHubException(string errorMessage) : base(errorMessage) 
     {
     }
 

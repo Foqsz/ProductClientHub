@@ -141,4 +141,17 @@
     <value>Produto inválido.</value>
     <comment>Erro ao registrar um produto fora dos requisitos</comment>
   </data>
+  <data name="USER_WITHOUT_PERMISSION_ACCESS_RESOURCE" xml:space="preserve">
+    <value>Você não tem permissão.</value>
+    <comment>Erro ao por codigo jwt</comment>
+  </data>
+  <data name="NO_TOKEN" xml:space="preserve">
+    <value>Token Inválido.</value>
+  </data>
+  <data name="PASSWORD_INVALID" xml:space="preserve">
+    <value>Senha inválida.</value>
+  </data>
+  <data name="NOT_LOGGED" xml:space="preserve">
+    <value>Você não está logado e não pode fazer a requisição.</value>
+  </data>
 </root>

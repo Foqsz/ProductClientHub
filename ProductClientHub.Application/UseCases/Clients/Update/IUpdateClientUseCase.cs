@@ -5,5 +5,5 @@ namespace ProductClientHub.Application.UseCases.Users.Update;
 
 public interface IUpdateClientUseCase
 {
-    Task<ResponseClientUpdatedJson> Execute(Guid clientId, RequestClientJson request);
+    Task<ResponseClientUpdatedJson> Execute(Guid clientId, RequestShortClientJson request);
 }

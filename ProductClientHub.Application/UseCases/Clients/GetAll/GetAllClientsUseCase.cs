@@ -19,7 +19,7 @@ public class GetAllClientsUseCase : IGetAllClientsUseCase
     {
         var clients = await _clientReadOnlyRepository.GetAll();
 
-        if (clients.Any().IsFalse())
+        if (clients == null || clients.Any().IsFalse())
             throw new NoContentException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
         
         var mapping = clients.Adapt<List<ResponseShortClientJson>>();

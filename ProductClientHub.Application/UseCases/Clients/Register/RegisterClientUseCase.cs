@@ -35,7 +35,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
 
         var userExist = await _clientReadOnlyRepository.EmailAlreadyExists(request.Email);
 
-        if (userExist.IsTrue())
+        if (userExist is not null)
         {
             throw new EmailAlreadyExistsException(ResourceMessagesExceptions.EMAIL_INVALID);
         }
@@ -50,7 +50,7 @@ public class RegisterClientUseCase : IRegisterClientUseCase
         return entity.Adapt<ResponseShortClientJson>();
     }
 
-    private void Validate(RequestClientJson request)
+    private static void Validate(RequestClientJson request)
     {
         var validator = new RequestClientValidator();
 

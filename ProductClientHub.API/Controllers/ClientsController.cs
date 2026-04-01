@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ProductClientHub.API.Attributes;
+using ProductClientHub.Application.UseCases.Clients.ChangePassword;
 using ProductClientHub.Application.UseCases.Users.Delete;
 using ProductClientHub.Application.UseCases.Users.GetAll;
 using ProductClientHub.Application.UseCases.Users.GetById;
@@ -10,6 +13,7 @@ using ProductClientHub.Communication.Responses;
 namespace ProductClientHub.API.Controllers;
 
 [Route("api/[controller]")]
+[AuthenticationUser]
 [ApiController]
 public class ClientsController : ControllerBase
 {
@@ -23,12 +27,23 @@ public class ClientsController : ControllerBase
         return Created(string.Empty, response);
     }
 
+    [HttpPost]
+    [Route("changePassword/{clientId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ChangePassword([FromRoute] Guid clientId, [FromBody] RequestChangePassword request, [FromServices] IChangePasswordUseCase useCase)
+    {
+        await useCase.Execute(clientId, request);
+
+        return NoContent();
+    }
+
     [HttpPut]
     [Route("{clientId:guid}")]
     [ProducesResponseType(typeof(ResponseClientUpdatedJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update([FromRoute] Guid clientId, [FromBody] RequestClientJson request, [FromServices] IUpdateClientUseCase useCase)
+    public async Task<IActionResult> Update([FromRoute] Guid clientId, [FromBody] RequestShortClientJson request, [FromServices] IUpdateClientUseCase useCase)
     {
         var response = await useCase.Execute(clientId, request);
 
@@ -56,7 +71,7 @@ public class ClientsController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("${clientId:guid}")]
+    [Route("{clientId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete([FromRoute] Guid clientId, [FromServices] IDeleteClientUseCase useCase)

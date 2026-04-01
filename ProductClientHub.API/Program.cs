@@ -1,7 +1,9 @@
 using Microsoft.OpenApi;
 using ProductClientHub.API.Filters;
 using ProductClientHub.API.Middlewares;
+using ProductClientHub.API.Token;
 using ProductClientHub.Application;
+using ProductClientHub.Domain.Security.Tokens;
 using ProductClientHub.Infrastructure;
 using ProductClientHub.Infrastructure.Extensions;
 using ProductClientHub.Infrastructure.Migrations;
@@ -16,13 +18,17 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition(AUTHENTICATION_TYPE, new OpenApiSecurityScheme
     {
-        Description = @"JWT Authorization header using the Bearer scheme
-                      Enter 'Bearer' [space] and then your token in the text input below
-                      Example: 'Bearer 123456abcdef'",
         Name = "Authorization",
+        Description = $"JWT Authorization header using the Bearer scheme.",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = AUTHENTICATION_TYPE
+        Type = SecuritySchemeType.Http,
+        Scheme = AUTHENTICATION_TYPE,
+        BearerFormat = "JWT"
+    });
+
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference(AUTHENTICATION_TYPE, document)] = []
     });
 });
 
@@ -67,7 +73,19 @@ builder.Services.AddMvc(option => option.Filters.Add(typeof(ExceptionFilter)));
 //Inject dependencies
 builder.Services.AddAplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Host.AddLogger(builder.Configuration);
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        policy => policy
+            .WithOrigins("http://127.0.0.1:5500")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 
 var app = builder.Build();
 
@@ -80,6 +98,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<LocalizationMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 //app.MapOpenApi("/doc/{documentName}.json");
 

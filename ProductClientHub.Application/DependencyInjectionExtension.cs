@@ -1,14 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ProductClientHub.Application.Services.Mapping;
+using ProductClientHub.Application.UseCases.Clients.ChangePassword;
+using ProductClientHub.Application.UseCases.DoLogin;
+using ProductClientHub.Application.UseCases.GetById;
+using ProductClientHub.Application.UseCases.Products.Delete;
+using ProductClientHub.Application.UseCases.Products.GetAll;
+using ProductClientHub.Application.UseCases.Products.Register;
+using ProductClientHub.Application.UseCases.Products.Update;
 using ProductClientHub.Application.UseCases.Users.Delete;
 using ProductClientHub.Application.UseCases.Users.GetAll;
 using ProductClientHub.Application.UseCases.Users.GetById;
 using ProductClientHub.Application.UseCases.Users.Register;
 using ProductClientHub.Application.UseCases.Users.Update;
-using ProductClientHub.Application.UseCases.GetById;
-using ProductClientHub.Application.UseCases.Products.GetAll;
-using ProductClientHub.Application.UseCases.Products.Register;
-using ProductClientHub.Application.UseCases.Products.Delete;
 
 namespace ProductClientHub.Application;
 
@@ -17,10 +20,10 @@ public static class DependencyInjectionExtension
     public static void AddAplication(this IServiceCollection services)
     {
         AddUseCases(services);
-        AddMapping(services);
+        AddMapping();
     }
 
-    private static void AddMapping(IServiceCollection services)
+    private static void AddMapping()
     {
         MapConfigurations.Configure();
     }
@@ -33,11 +36,16 @@ public static class DependencyInjectionExtension
         services.AddScoped<IUpdateClientUseCase, UpdateClientUseCase>();
         services.AddScoped<IGetClientByIdUseCase, GetClientByIdUseCase>();
         services.AddScoped<IDeleteClientUseCase, DeleteClientUseCase>();
+        services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
 
         //products
         services.AddScoped<IRegisterProductUseCase, RegisterProductUseCase>();
         services.AddScoped<IGetAllProductsUseCase, GetAllProductsUseCase>();
         services.AddScoped<IGetProductByIdUseCase, GetProductByIdUseCase>();
         services.AddScoped<IDeleteProductUseCase, DeleteProductUseCase>();  
+        services.AddScoped<IUploadProductUseCase, UploadProductUseCase>();
+
+        //login
+        services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
     }
 }
