@@ -24,9 +24,9 @@ public class GetByIdUseCaseTest
     public async Task GetByIdUseCaseTest_NotFound()
     {
         var (newClient, _) = ClientBuilder.Build();
-        newClient.Id = Guid.NewGuid();
 
         var useCase = CreateUseCase(newClient);
+        newClient.Id = Guid.NewGuid();
 
         var result = await Should.ThrowAsync<NotFoundException>(async () =>
         {
@@ -38,11 +38,11 @@ public class GetByIdUseCaseTest
 
     private static GetClientByIdUseCase CreateUseCase(ProductClientHub.Domain.Entities.Client? client)
     {
-        var repository = new ClientReadOnlyRepositoryBuilder().Build();
+        var repository = new ClientReadOnlyRepositoryBuilder();
 
         if(client is not null)
-            repository.GetById(client.Id);
+            repository.GetById(client);
 
-        return new GetClientByIdUseCase(repository);
+        return new GetClientByIdUseCase(repository.Build());
     }
 }
