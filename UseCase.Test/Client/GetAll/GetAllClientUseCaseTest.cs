@@ -39,11 +39,11 @@ public class GetAllClientUseCaseTest
 
     private static GetAllClientsUseCase CreateUseCase(IList<ProductClientHub.Domain.Entities.Client?> clients)
     {
-        var repository = new ClientReadOnlyRepositoryBuilder().Build(); 
+        var repository = new ClientReadOnlyRepositoryBuilder();
 
         if(clients is not null)
-            repository.GetAll();
+            repository.GetAll(clients.Where(c => c is not null).Cast<ProductClientHub.Domain.Entities.Client>().ToList());
 
-        return new GetAllClientsUseCase(repository);
+        return new GetAllClientsUseCase(repository.Build());
     }
 }
