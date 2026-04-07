@@ -88,6 +88,15 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Senha ou E-mail inválidos..
+        /// </summary>
+        public static string LOGIN_INVALID {
+            get {
+                return ResourceManager.GetString("LOGIN_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Token Inválido..
         /// </summary>
         public static string NO_TOKEN {
@@ -102,15 +111,6 @@ namespace ProductClientHub.Exceptions.ExceptionsBase {
         public static string NOT_LOGGED {
             get {
                 return ResourceManager.GetString("NOT_LOGGED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Senha inválida..
-        /// </summary>
-        public static string PASSWORD_INVALID {
-            get {
-                return ResourceManager.GetString("PASSWORD_INVALID", resourceCulture);
             }
         }
         
