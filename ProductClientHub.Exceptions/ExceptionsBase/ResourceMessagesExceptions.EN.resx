@@ -141,8 +141,8 @@
   <data name="NO_TOKEN" xml:space="preserve">
     <value>Invalid token.</value>
   </data>
-  <data name="PASSWORD_INVALID" xml:space="preserve">
-    <value>Password invalid</value>
+  <data name="LOGIN_INVALID" xml:space="preserve">
+    <value>Password or e-mail invalids</value>
   </data>
   <data name="NOT_LOGGED" xml:space="preserve">
     <value>You are not logged in and cannot make the request.</value>

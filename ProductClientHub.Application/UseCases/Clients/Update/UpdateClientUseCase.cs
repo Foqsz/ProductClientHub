@@ -1,6 +1,5 @@
 ﻿using Mapster;
 using ProductClientHub.Application.UseCases.Clients.Update;
-using ProductClientHub.Application.UseCases.Users.SharedValidator;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Extensions;
@@ -29,10 +28,12 @@ public class UpdateClientUseCase : IUpdateClientUseCase
     {
         Validate(request);
 
-        var client = await _clientReadOnlyRepository.GetById(clientId);
+        var client = await _clientReadOnlyRepository.GetById(clientId) ?? throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
 
-        if (client is null)
-            throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
+        var emailExist = await _clientReadOnlyRepository.EmailAlreadyExists(request.Email);
+
+        if(emailExist is not null)
+            throw new EmailAlreadyExistsException(ResourceMessagesExceptions.EMAIL_INVALID);
 
         client.Name = request.Name;
         client.Email = request.Email;

@@ -148,8 +148,8 @@
   <data name="NO_TOKEN" xml:space="preserve">
     <value>Token Inválido.</value>
   </data>
-  <data name="PASSWORD_INVALID" xml:space="preserve">
-    <value>Senha inválida.</value>
+  <data name="LOGIN_INVALID" xml:space="preserve">
+    <value>Senha ou E-mail inválidos.</value>
   </data>
   <data name="NOT_LOGGED" xml:space="preserve">
     <value>Você não está logado e não pode fazer a requisição.</value>

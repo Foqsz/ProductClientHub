@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProductClientHub.API.Attributes;
 using ProductClientHub.Application.UseCases.Clients.ChangePassword;
 using ProductClientHub.Application.UseCases.Users.Delete;
 using ProductClientHub.Application.UseCases.Users.GetAll;
 using ProductClientHub.Application.UseCases.Users.GetById;
-using ProductClientHub.Application.UseCases.Users.Register;
 using ProductClientHub.Application.UseCases.Users.Update;
 using ProductClientHub.Communication.Requests;
 using ProductClientHub.Communication.Responses;
@@ -17,16 +15,6 @@ namespace ProductClientHub.API.Controllers;
 [ApiController]
 public class ClientsController : ControllerBase
 {
-    [HttpPost]
-    [ProducesResponseType(typeof(ResponseShortClientJson), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Register([FromBody] RequestClientJson request, [FromServices] IRegisterClientUseCase useCase)
-    {
-        var response = await useCase.Execute(request);
-
-        return Created(string.Empty, response);
-    }
-
     [HttpPost]
     [Route("changePassword/{clientId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
