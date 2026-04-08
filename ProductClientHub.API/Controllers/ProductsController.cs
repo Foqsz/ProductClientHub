@@ -16,41 +16,38 @@ namespace ProductClientHub.API.Controllers;
 public class ProductsController : ControllerBase
 {
     [HttpPost]
-    [Route("${clientId:guid}")]
     [ProducesResponseType(typeof(ResponseShortProductJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Register([FromBody] RequestProductJson request, 
-        [FromRoute] Guid clientId, 
         [FromServices] IRegisterProductUseCase useCase)
     {
-        var response = await useCase.Execute(clientId, request);
+        var response = await useCase.Execute(request);
 
         return Created(string.Empty, response);
     }
 
     [HttpPut]
-    [Route("{productId:guid}/client/{clientId:guid}")]
+    [Route("{productId:guid}")]
     [ProducesResponseType(typeof(ResponseShortProductJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update([FromBody] RequestProductJson request, 
         [FromRoute] Guid productId, 
-        [FromRoute] Guid clientId, 
         [FromServices] IUploadProductUseCase useCase)
     {
-        var response = await useCase.Execute(clientId, productId, request);
+        var response = await useCase.Execute(productId, request);
 
         return Ok(response);
     }
 
     [HttpDelete]
-    [Route("{productId:guid}/client/{clientId:guid}")]
+    [Route("{productId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] Guid productId, [FromRoute] Guid clientId, [FromServices] IDeleteProductUseCase useCase)
+    public async Task<IActionResult> Delete([FromRoute] Guid productId, [FromServices] IDeleteProductUseCase useCase)
     {
-        await useCase.Execute(clientId, productId);
+        await useCase.Execute(productId);
         return NoContent();
     }
 

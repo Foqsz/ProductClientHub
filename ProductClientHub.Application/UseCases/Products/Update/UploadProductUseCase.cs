@@ -6,6 +6,7 @@ using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.Product;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
+using ProductClientHub.Domain.Services.LoggedUser;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.Application.UseCases.Products.Update;
@@ -16,32 +17,33 @@ public class UploadProductUseCase : IUploadProductUseCase
     private readonly IClientReadOnlyRepository _clientReadOnlyRepository;
     private readonly IProductsReadOnlyRepository _productsReadOnlyRepository;
     private readonly IUploadProductOnlyRepository _productWriteOnlyRepository;
+    private readonly ILoggedUser _loggedUser;
 
     public UploadProductUseCase(IUnitOfWork unitOfWork,
         IUploadProductOnlyRepository productWriteOnlyRepository,
         IClientReadOnlyRepository clientReadOnlyRepository,
-        IProductsReadOnlyRepository productsReadOnlyRepository)
+        IProductsReadOnlyRepository productsReadOnlyRepository,
+        ILoggedUser loggedUser)
     {
         _unitOfWork = unitOfWork;
         _productWriteOnlyRepository = productWriteOnlyRepository;
         _clientReadOnlyRepository = clientReadOnlyRepository;
         _productsReadOnlyRepository = productsReadOnlyRepository;
+        _loggedUser = loggedUser;
     }
 
-    public async Task<ResponseShortProductJson> Execute(Guid clientId, Guid productId, RequestProductJson request)
+    public async Task<ResponseShortProductJson> Execute(Guid productId, RequestProductJson request)
     {
-        await Validate(clientId, request);
+        var client = await _loggedUser.User();
+        await Validate(client.Id, request);
 
-        var product = await _productsReadOnlyRepository.GetById(productId);
-
-        if (product == null)
-            throw new NotFoundException(ResourceMessagesExceptions.PRODUCT_NOTFOUND);
+        var product = await _productsReadOnlyRepository.GetById(productId) ?? throw new NotFoundException(ResourceMessagesExceptions.PRODUCT_NOTFOUND);
 
         product.Name = request.Name;
         product.Brand = request.Brand;
         product.Price = request.Price;
 
-        await _productWriteOnlyRepository.Update(clientId, productId, product);
+        await _productWriteOnlyRepository.Update(client.Id, productId, product);
         await _unitOfWork.Commit();
 
         return product.Adapt<ResponseShortProductJson>();
