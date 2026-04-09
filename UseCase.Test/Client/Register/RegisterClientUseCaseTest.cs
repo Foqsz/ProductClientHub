@@ -1,5 +1,6 @@
 ﻿using CommonTestUtilities.Cryptografhy;
 using CommonTestUtilities.Entities;
+using CommonTestUtilities.Messaging;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
 using ProductClientHub.Application.UseCases.Users.Register;
@@ -56,6 +57,7 @@ public class RegisterClientUseCaseTest
         var clientReadOnlyRepository = new ClientReadOnlyRepositoryBuilder();
         var unitOfWork = UnitOfWorkBuilder.Build();
         var passwordEncripterBuilder = PasswordEncripterBuilder.Build();
+        var messagePublisher = MessagePublisherBuilder.Build();
 
         if(client is not null && emailExistsTest.IsTrue())
         {
@@ -67,6 +69,7 @@ public class RegisterClientUseCaseTest
             clientWriteOnlyRepository,
             unitOfWork,
             clientReadOnlyRepository.Build(),
-            passwordEncripterBuilder);
+            passwordEncripterBuilder,
+            messagePublisher);
     }
 }
