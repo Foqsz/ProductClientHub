@@ -22,7 +22,9 @@ using ProductClientHub.Domain.Security.Tokens;
 using ProductClientHub.Infrastructure.Security.Tokens.Acess.Generator;
 using ProductClientHub.Infrastructure.Security.Tokens.Acess.Validator;
 using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Domain.Services.Messaging;
 using ProductClientHub.Infrastructure.Services;
+using ProductClientHub.Infrastructure.Messaging.RabbitMq;
 
 namespace ProductClientHub.Infrastructure;
 
@@ -36,6 +38,7 @@ public static class DependencyInjectionExtension
         AddTokens(services, configuration);
         AddPasswordEncrpter(services);
         AddLoggedUser(services);
+        AddMessaging(services, configuration);
     }
 
     public static void AddLogger(this IHostBuilder builder, IConfiguration configuration)
@@ -76,6 +79,13 @@ public static class DependencyInjectionExtension
     }
 
     private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
+
+    private static void AddMessaging(IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
+        services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
+        services.AddHostedService<ClientCreatedConsumer>();
+    }
 
     private static void AddDbContext_PostgreSql(IServiceCollection services, IConfiguration configuration)
     {
