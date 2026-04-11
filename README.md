@@ -203,5 +203,5 @@ Backend Developer · Estudante de Análise e Desenvolvimento de Sistemas
 ---
 
 <div align="center">
-  <sub>Desenvolvido durante os estudos na trilha backend da <a href="https://rocketseat.com.br">Rocketseat e aprimorado.</a> 🚀</sub>
+  <sub>Desenvolvido durante os estudos na trilha backend da <a href="https://rocketseat.com.br">Rocketseat e aprimorado para prática de conhecimento.</a> 🚀</sub>
 </div>
