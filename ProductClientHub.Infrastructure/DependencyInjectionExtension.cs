@@ -84,7 +84,13 @@ public static class DependencyInjectionExtension
     {
         services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
         services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
-        services.AddHostedService<ClientCreatedConsumer>();
+
+        var rabbitMqOptions = configuration.GetSection(RabbitMqOptions.SectionName).Get<RabbitMqOptions>();
+        if (rabbitMqOptions?.EnableConsumer is not false)
+        {
+            services.AddHostedService<ClientCreatedConsumer>();
+            services.AddHostedService<ClientWelcomeConsumer>();
+        }
     }
 
     private static void AddDbContext_PostgreSql(IServiceCollection services, IConfiguration configuration)
