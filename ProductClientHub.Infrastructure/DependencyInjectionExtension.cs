@@ -89,6 +89,7 @@ public static class DependencyInjectionExtension
         if (rabbitMqOptions?.EnableConsumer is not false)
         {
             services.AddHostedService<ClientCreatedConsumer>();
+            services.AddHostedService<ClientWelcomeConsumer>();
         }
     }
 

@@ -4,17 +4,18 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using System.Text.Json;
 
 namespace ProductClientHub.Infrastructure.Messaging.RabbitMq;
 
-public sealed class ClientCreatedConsumer : BackgroundService
+public sealed class ClientWelcomeConsumer : BackgroundService
 {
     private readonly RabbitMqOptions _options;
-    private readonly ILogger<ClientCreatedConsumer> _logger;
+    private readonly ILogger<ClientWelcomeConsumer> _logger;
     private IConnection? _connection;
     private IChannel? _channel;
 
-    public ClientCreatedConsumer(IOptions<RabbitMqOptions> options, ILogger<ClientCreatedConsumer> logger)
+    public ClientWelcomeConsumer(IOptions<RabbitMqOptions> options, ILogger<ClientWelcomeConsumer> logger)
     {
         _options = options.Value;
         _logger = logger;
@@ -42,7 +43,7 @@ public sealed class ClientCreatedConsumer : BackgroundService
             cancellationToken: stoppingToken);
 
         await _channel.QueueDeclareAsync(
-            queue: _options.ClientCreatedQueueName,
+            queue: _options.ClientWelcomeQueueName,
             durable: true,
             exclusive: false,
             autoDelete: false,
@@ -50,7 +51,7 @@ public sealed class ClientCreatedConsumer : BackgroundService
             cancellationToken: stoppingToken);
 
         await _channel.QueueBindAsync(
-            queue: _options.ClientCreatedQueueName,
+            queue: _options.ClientWelcomeQueueName,
             exchange: _options.ExchangeName,
             routingKey: string.Empty,
             cancellationToken: stoppingToken);
@@ -61,13 +62,21 @@ public sealed class ClientCreatedConsumer : BackgroundService
             var body = eventArgs.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
 
-            _logger.LogInformation("Mensagem recebida da fila {Queue}: {Message}", _options.ClientCreatedQueueName, message);
+            var name = "cliente";
+            using var document = JsonDocument.Parse(message);
+            if (document.RootElement.TryGetProperty("Name", out var nameProperty) ||
+                document.RootElement.TryGetProperty("name", out nameProperty))
+            {
+                name = nameProperty.GetString() ?? name;
+            }
+
+            _logger.LogInformation("Boas-vindas enviadas para {Name}", name);
 
             await _channel.BasicAckAsync(eventArgs.DeliveryTag, multiple: false, cancellationToken: stoppingToken);
         };
 
         await _channel.BasicConsumeAsync(
-            queue: _options.ClientCreatedQueueName,
+            queue: _options.ClientWelcomeQueueName,
             autoAck: false,
             consumer: consumer,
             cancellationToken: stoppingToken);
@@ -85,5 +94,4 @@ public sealed class ClientCreatedConsumer : BackgroundService
 
         await base.StopAsync(cancellationToken);
     }
-
 }

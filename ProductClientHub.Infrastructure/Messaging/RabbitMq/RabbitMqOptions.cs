@@ -9,5 +9,8 @@ public sealed class RabbitMqOptions
     public string UserName { get; set; } = "guest";
     public string Password { get; set; } = "guest";
     public string QueueName { get; set; } = "clients.created";
+    public string ExchangeName { get; set; } = "clients.exchange";
+    public string ClientCreatedQueueName { get; set; } = "clients.created.audit";
+    public string ClientWelcomeQueueName { get; set; } = "clients.created.welcome";
     public bool EnableConsumer { get; set; } = true;
 }

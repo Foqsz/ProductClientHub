@@ -28,10 +28,10 @@ public sealed class RabbitMqPublisher : IMessagePublisher
         await using var connection = await factory.CreateConnectionAsync(cancellationToken);
         await using var channel = await connection.CreateChannelAsync(cancellationToken: cancellationToken);
 
-        await channel.QueueDeclareAsync(
-            queue: queueName,
+        await channel.ExchangeDeclareAsync(
+            exchange: _options.ExchangeName,
+            type: ExchangeType.Fanout,
             durable: true,
-            exclusive: false,
             autoDelete: false,
             arguments: null,
             cancellationToken: cancellationToken);
@@ -42,7 +42,7 @@ public sealed class RabbitMqPublisher : IMessagePublisher
         var properties = new BasicProperties { Persistent = true };
 
         await channel.BasicPublishAsync(
-            exchange: string.Empty,
+            exchange: _options.ExchangeName,
             routingKey: queueName,
             mandatory: false,
             basicProperties: properties,
