@@ -34,9 +34,9 @@ public class ChangePasswordUseCase : IChangePasswordUseCase
         if(client is null)
             throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
 
-        var changeVerify = _passwordEncripter.IsValid(request.NewPassword, client.Password);
+        var changeVerify = _passwordEncripter.IsValid(request.CurrentPassword, client.Password);
 
-        if(changeVerify.IsTrue())
+        if(changeVerify.IsFalse())
             throw new ChangePasswordException(ResourceMessagesExceptions.LOGIN_INVALID);
 
         client.Password = _passwordEncripter.Encrypt(request.NewPassword);
