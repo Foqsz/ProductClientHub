@@ -68,7 +68,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             => Task.FromResult<IList<ClientEntity>>(_clientStore.Clients);
 
         public Task<ClientEntity?> GetById(Guid clientId)
-            => Task.FromResult<ClientEntity?>(null);
+        {
+            var client = _clientStore.Clients.FirstOrDefault(c => c.Id == clientId);
+            return Task.FromResult<ClientEntity?>(client);
+        }
 
         public Task<bool> ExistActiveClientWithIdentifier(Guid clientIdentifier) => Task.FromResult(true);
     }
