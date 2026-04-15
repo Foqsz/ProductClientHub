@@ -107,7 +107,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-MigrateDatabase();
+if (app.Environment.IsEnvironment("Testing").Equals(false))
+    MigrateDatabase();
 
 app.Run();
 
