@@ -20,4 +20,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProductClientHub.API\ProductClientHub.API.csproj" />
+  </ItemGroup>
+
 </Project>

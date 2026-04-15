@@ -46,7 +46,6 @@ public sealed class ClientCreatedConsumer : BackgroundService
             durable: true,
             exclusive: false,
             autoDelete: false,
-https://github.com/Foqsz/ProductClientHub/pull/31/conflict?name=ProductClientHub.Infrastructure%252FMessaging%252FRabbitMq%252FRabbitMqPublisher.cs&base_oid=550e726c94d056a6d7a9eca0fd1c987fc2baa257&head_oid=d40cfeda05d2ea167e1c6aaa27c0a79700781e44            arguments: null,
             cancellationToken: stoppingToken);
 
         await _channel.QueueBindAsync(
