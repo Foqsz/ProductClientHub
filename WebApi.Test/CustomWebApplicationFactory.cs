@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using ClientEntity = ProductClientHub.Domain.Entities.Client;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Security.Tokens;
@@ -40,9 +41,14 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
             services.RemoveAll<IClientReadOnlyRepository>();
             services.RemoveAll<IAccessTokenValidator>();
+            services.RemoveAll<IDeleteClientRepository>();
+
+            // Remove all hosted services to prevent background services from running during tests
+            services.RemoveAll(typeof(IHostedService));
 
             services.AddScoped<IClientReadOnlyRepository, FakeClientReadOnlyRepository>();
             services.AddScoped<IAccessTokenValidator, FakeAccessTokenValidator>();
+            services.AddScoped<IDeleteClientRepository, FakeDeleteClientRepository>();
         });
     }
 
@@ -74,6 +80,26 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         }
 
         public Task<bool> ExistActiveClientWithIdentifier(Guid clientIdentifier) => Task.FromResult(true);
+    }
+
+    private sealed class FakeDeleteClientRepository : IDeleteClientRepository
+    {
+        private readonly TestClientStore _clientStore;
+
+        public FakeDeleteClientRepository(TestClientStore clientStore)
+        {
+            _clientStore = clientStore;
+        }
+
+        public Task Delete(Guid clientId)
+        {
+            var client = _clientStore.Clients.FirstOrDefault(c => c.Id == clientId);
+            if (client != null)
+            {
+                _clientStore.Clients.Remove(client);
+            }
+            return Task.CompletedTask;
+        }
     }
 
     private sealed class TestClientStore
