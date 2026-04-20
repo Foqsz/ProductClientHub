@@ -40,4 +40,30 @@ public class UpdateClientIntegrationTest : IClassFixture<CustomWebApplicationFac
 
         response.StatusCode.ShouldBe(System.Net.HttpStatusCode.OK);
     }
+
+    [Fact]
+    public async Task UpdateClientTest_Error_EmailExist()
+    {
+        var client = _factory.ClientsToReturn =
+        [
+            new ClientEntity
+                {
+                    Name = "Update Client",
+                    Email = "updateclient@gmail.com"
+                },
+
+            new ClientEntity
+                {
+                    Name = "Update Client 2",
+                    Email = "updateclient@gmail.com"
+                }
+        ];
+
+        client[0].Id = Guid.NewGuid();
+        client[1].Id = Guid.NewGuid();
+
+        var response = await _httpClient.PutAsync($"/api/clients/{client[1].Id}", new StringContent(JsonConvert.SerializeObject(client[1]), System.Text.Encoding.UTF8, "application/json"));
+
+        response.StatusCode.ShouldBe(System.Net.HttpStatusCode.BadRequest);
+    }
 }

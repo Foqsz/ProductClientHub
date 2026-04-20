@@ -73,7 +73,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         }
 
         public Task<ClientEntity?> EmailAlreadyExists(string email)
-            => Task.FromResult<ClientEntity?>(null);
+        {
+            var client = _clientStore.Clients.FirstOrDefault(c => c.Email == email);
+            return Task.FromResult<ClientEntity?>(client);
+        }
 
         public Task<IList<ClientEntity>> GetAll()
             => Task.FromResult<IList<ClientEntity>>(_clientStore.Clients);
