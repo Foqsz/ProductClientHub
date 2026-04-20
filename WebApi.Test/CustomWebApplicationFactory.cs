@@ -4,9 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using ClientEntity = ProductClientHub.Domain.Entities.Client;
 using ProductClientHub.Domain.Repositories.Client;
+using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Domain.Security.Tokens;
+using ClientEntity = ProductClientHub.Domain.Entities.Client;
 
 namespace WebApi.Test;
 
@@ -40,15 +41,19 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.AddSingleton(_clientStore);
 
             services.RemoveAll<IClientReadOnlyRepository>();
+            services.RemoveAll<IClientWriteOnlyRepository>();
             services.RemoveAll<IAccessTokenValidator>();
             services.RemoveAll<IDeleteClientRepository>();
+            services.RemoveAll<IUnitOfWork>();
 
             // Remove all hosted services to prevent background services from running during tests
             services.RemoveAll(typeof(IHostedService));
 
             services.AddScoped<IClientReadOnlyRepository, FakeClientReadOnlyRepository>();
+            services.AddScoped<IClientWriteOnlyRepository, FakeClientWriteOnlyRepository>();
             services.AddScoped<IAccessTokenValidator, FakeAccessTokenValidator>();
             services.AddScoped<IDeleteClientRepository, FakeDeleteClientRepository>();
+            services.AddScoped<IUnitOfWork, FakeUnitOfWork>();
         });
     }
 
@@ -68,7 +73,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         }
 
         public Task<ClientEntity?> EmailAlreadyExists(string email)
-            => Task.FromResult<ClientEntity?>(null);
+        {
+            var client = _clientStore.Clients.FirstOrDefault(c => c.Email == email);
+            return Task.FromResult<ClientEntity?>(client);
+        }
 
         public Task<IList<ClientEntity>> GetAll()
             => Task.FromResult<IList<ClientEntity>>(_clientStore.Clients);
@@ -100,6 +108,38 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             }
             return Task.CompletedTask;
         }
+    }
+
+    private sealed class FakeClientWriteOnlyRepository : IClientWriteOnlyRepository
+    {
+        private readonly TestClientStore _clientStore;
+
+        public FakeClientWriteOnlyRepository(TestClientStore clientStore)
+        {
+            _clientStore = clientStore;
+        }
+
+        public Task Add(ClientEntity client)
+        {
+            _clientStore.Clients.Add(client);
+            return Task.CompletedTask;
+        }
+
+        public Task<ClientEntity?> Update(ClientEntity client)
+        {
+            var existingClient = _clientStore.Clients.FirstOrDefault(c => c.Id == client.Id);
+            if (existingClient != null)
+            {
+                existingClient.Name = client.Name;
+                existingClient.Email = client.Email;
+            }
+            return Task.FromResult<ClientEntity?>(existingClient);
+        }
+    }
+
+    private sealed class FakeUnitOfWork : IUnitOfWork
+    {
+        public Task Commit() => Task.CompletedTask;
     }
 
     private sealed class TestClientStore
