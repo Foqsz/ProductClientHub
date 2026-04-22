@@ -5,6 +5,7 @@ using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
+using ProductClientHub.Domain.Services.LoggedUser;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.Application.UseCases.Users.Update;
@@ -14,21 +15,26 @@ public class UpdateClientUseCase : IUpdateClientUseCase
     private readonly IClientWriteOnlyRepository _clientWriteOnlyRepository;
     private readonly IClientReadOnlyRepository _clientReadOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ILoggedUser _loggedUser;
 
     public UpdateClientUseCase(IClientWriteOnlyRepository clientWriteOnlyRepository,
         IClientReadOnlyRepository clientReadOnlyRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        ILoggedUser loggedUser)
     {
         _clientWriteOnlyRepository = clientWriteOnlyRepository;
         _clientReadOnlyRepository = clientReadOnlyRepository;
         _unitOfWork = unitOfWork;
+        _loggedUser = loggedUser;
     }
 
-    public async Task<ResponseClientUpdatedJson> Execute(Guid clientId, RequestShortClientJson request)
+    public async Task<ResponseClientUpdatedJson> Execute(RequestShortClientJson request)
     {
         Validate(request);
 
-        var client = await _clientReadOnlyRepository.GetById(clientId) ?? throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
+        var userLogged = await _loggedUser.User();
+
+        var client = await _clientReadOnlyRepository.GetById(userLogged.Id) ?? throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
 
         var emailExist = await _clientReadOnlyRepository.EmailAlreadyExists(request.Email);
 
