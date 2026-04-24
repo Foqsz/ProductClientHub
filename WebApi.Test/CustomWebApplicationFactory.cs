@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Domain.Security.Tokens;
+using ProductClientHub.Domain.Services.LoggedUser;
 using ClientEntity = ProductClientHub.Domain.Entities.Client;
 
 namespace WebApi.Test;
@@ -45,6 +46,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.RemoveAll<IAccessTokenValidator>();
             services.RemoveAll<IDeleteClientRepository>();
             services.RemoveAll<IUnitOfWork>();
+            services.RemoveAll<ILoggedUser>();
 
             // Remove all hosted services to prevent background services from running during tests
             services.RemoveAll(typeof(IHostedService));
@@ -54,6 +56,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.AddScoped<IAccessTokenValidator, FakeAccessTokenValidator>();
             services.AddScoped<IDeleteClientRepository, FakeDeleteClientRepository>();
             services.AddScoped<IUnitOfWork, FakeUnitOfWork>();
+            services.AddScoped<ILoggedUser, FakeLoggedUser>();
         });
     }
 
@@ -134,6 +137,22 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 existingClient.Email = client.Email;
             }
             return Task.FromResult<ClientEntity?>(existingClient);
+        }
+    }
+
+    private sealed class FakeLoggedUser : ILoggedUser
+    {
+        private readonly TestClientStore _clientStore;
+
+        public FakeLoggedUser(TestClientStore clientStore)
+        {
+            _clientStore = clientStore;
+        }
+
+        public Task<ClientEntity> User()
+        {
+            var user = _clientStore.Clients.First();
+            return Task.FromResult(user);
         }
     }
 

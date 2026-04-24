@@ -1,10 +1,12 @@
 ﻿using CommonTestUtilities.Cryptografhy;
 using CommonTestUtilities.Entities;
+using CommonTestUtilities.LoggedUser;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
 using ProductClientHub.Application.UseCases.Users.Update;
 using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Exceptions.ExceptionsBase;
+using ProductClientHub.Infrastructure.Services;
 using Shouldly;
 
 namespace UseCase.Test.Client.Update;
@@ -20,7 +22,7 @@ public class UpdateClientUseCaseTest
 
         var useCase = CreateUseCase(client, emailExistsTest: false, clientExist: true);
 
-        var result = await useCase.Execute(client.Id, clientRequest);
+        var result = await useCase.Execute(clientRequest);
 
         result.ShouldNotBeNull();
         result.ShouldSatisfyAllConditions(
@@ -38,7 +40,7 @@ public class UpdateClientUseCaseTest
 
         var useCase = CreateUseCase(client, emailExistsTest: false, clientExist: false);
 
-        var resultException = await Should.ThrowAsync<NotFoundException>(async () => await useCase.Execute(client.Id, clientRequest));
+        var resultException = await Should.ThrowAsync<NotFoundException>(async () => await useCase.Execute(clientRequest));
 
         resultException.ShouldNotBeNull();
         resultException.ShouldSatisfyAllConditions(() => resultException.Message.ShouldBe(ResourceMessagesExceptions.CLIENT_NOCONTENT));
@@ -53,7 +55,7 @@ public class UpdateClientUseCaseTest
 
         var useCase = CreateUseCase(client, emailExistsTest: true, clientExist: true);
 
-        var resultException = await Should.ThrowAsync<EmailAlreadyExistsException>(async () => await useCase.Execute(client.Id, clientRequest));
+        var resultException = await Should.ThrowAsync<EmailAlreadyExistsException>(async () => await useCase.Execute(clientRequest));
 
         resultException.ShouldNotBeNull();
         resultException.ShouldSatisfyAllConditions(() => resultException.Message.ShouldBe(ResourceMessagesExceptions.EMAIL_INVALID));
@@ -64,13 +66,14 @@ public class UpdateClientUseCaseTest
         var clientWriteOnlyRepository = ClientWriteOnlyRepositoryBuilder.Build();
         var clientReadOnlyRepository = new ClientReadOnlyRepositoryBuilder();
         var unitOfWork = UnitOfWorkBuilder.Build();
+        var loggedUser = LoggedUserBuilder.Build(client!);
 
-        if(client is not null && clientExist.IsTrue())
+        if (client is not null && clientExist.IsTrue())
             clientReadOnlyRepository.GetById(client); 
 
         if(emailExistsTest.IsTrue())
             clientReadOnlyRepository.EmailAlreadyExists(client);
 
-        return new UpdateClientUseCase(clientWriteOnlyRepository, clientReadOnlyRepository.Build(), unitOfWork);
+        return new UpdateClientUseCase(clientWriteOnlyRepository, clientReadOnlyRepository.Build(), unitOfWork, loggedUser);
     }
 }
