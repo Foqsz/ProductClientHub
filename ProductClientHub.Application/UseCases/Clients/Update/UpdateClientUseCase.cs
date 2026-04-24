@@ -38,7 +38,7 @@ public class UpdateClientUseCase : IUpdateClientUseCase
 
         var emailExist = await _clientReadOnlyRepository.EmailAlreadyExists(request.Email);
 
-        if(emailExist is not null)
+        if(emailExist is not null && emailExist.Id != userLogged.Id)
             throw new EmailAlreadyExistsException(ResourceMessagesExceptions.EMAIL_INVALID);
 
         client.Name = request.Name;
