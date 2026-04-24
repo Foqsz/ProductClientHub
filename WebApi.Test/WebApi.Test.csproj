@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommonTestUtilities\CommonTestUtilities.csproj" />
     <ProjectReference Include="..\ProductClientHub.API\ProductClientHub.API.csproj" />
   </ItemGroup>
 
