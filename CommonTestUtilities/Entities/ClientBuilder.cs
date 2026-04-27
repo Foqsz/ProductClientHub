@@ -13,7 +13,7 @@ public class ClientBuilder
         var password = new Faker().Internet.Password();
 
         var client = new Faker<Client>()
-            .RuleFor(client => client.Id, () => new Guid())
+            .RuleFor(client => client.Id, () => Guid.NewGuid())
             .RuleFor(client => client.Name, (f) => f.Person.FirstName)
             .RuleFor(client => client.Email, (f, user) => f.Internet.Email(user.Name))
             .RuleFor(client => client.Password, (f) => passwordEncripter.Encrypt(password));
