@@ -69,8 +69,8 @@ O projeto adota uma **arquitetura em camadas** organizada em três projetos dist
 | [.NET](https://dotnet.microsoft.com/) | 10 | Framework principal |
 | [ASP.NET Core](https://learn.microsoft.com/aspnet/core) | 10 | Web API |
 | [C#](https://learn.microsoft.com/dotnet/csharp/) | 13 | Linguagem |
-| [Swagger / Scalar](https://swagger.io/) | — | Documentação interativa |
-| [Entity Framework Core](https://learn.microsoft.com/ef/core/) | — | ORM *(se aplicável)* |
+| [Swagger / Scalar](https://swagger.io/) | 10 | Documentação interativa |
+| [Entity Framework Core](https://learn.microsoft.com/ef/core/) | 10 | ORM *(se aplicável)* |
 | [Serilog](https://serilog.net/) | - Logs
 
 ---
