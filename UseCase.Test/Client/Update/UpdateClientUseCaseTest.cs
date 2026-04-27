@@ -72,7 +72,12 @@ public class UpdateClientUseCaseTest
             clientReadOnlyRepository.GetById(client); 
 
         if(emailExistsTest.IsTrue())
-            clientReadOnlyRepository.EmailAlreadyExists(client);
+        {
+            var (clientWithSameEmail, _) = ClientBuilder.Build();
+            clientWithSameEmail.Email = client!.Email;
+
+            clientReadOnlyRepository.EmailAlreadyExists(clientWithSameEmail);
+        }
 
         return new UpdateClientUseCase(clientWriteOnlyRepository, clientReadOnlyRepository.Build(), unitOfWork, loggedUser);
     }
