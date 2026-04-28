@@ -15,8 +15,16 @@ public class ClientReadOnlyRepositoryBuilder
 
     public ClientReadOnlyRepositoryBuilder EmailAlreadyExists(Client? client)
     {
-        if(client is not null)
+        if (client is not null)
             _repository.Setup(r => r.EmailAlreadyExists(client.Email)).ReturnsAsync(client);
+
+        return this;
+    }
+
+    public ClientReadOnlyRepositoryBuilder EmailAlreadyExists(Client? clientEmail, Client? clientReturned)
+    {
+        if (clientEmail is not null && clientReturned is not null)
+            _repository.Setup(r => r.EmailAlreadyExists(clientEmail.Email)).ReturnsAsync(clientReturned);
 
         return this;
     }

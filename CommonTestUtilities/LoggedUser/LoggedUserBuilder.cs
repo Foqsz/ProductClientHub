@@ -1,14 +1,14 @@
 ﻿using Moq;
 using ProductClientHub.Domain.Entities;
-using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Domain.Services.loggedClient;
 
-namespace CommonTestUtilities.LoggedUser;
+namespace CommonTestUtilities.loggedClient;
 
-public class LoggedUserBuilder
+public class LoggedClientBuilder
 {
-    public static ILoggedUser Build(Client client)
+    public static ILoggedClient Build(Client client)
     {
-        var mock = new Mock<ILoggedUser>();
+        var mock = new Mock<ILoggedClient>();
 
         mock.Setup(c => c.User()).ReturnsAsync(client);
 

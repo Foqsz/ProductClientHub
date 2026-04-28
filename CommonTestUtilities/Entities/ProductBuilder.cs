@@ -20,6 +20,9 @@ public class ProductBuilder
             list.Add(fakeProduct);
         }
 
+        foreach (var product in list)
+            client.Products.Add(product);
+
         return list;
     }
 

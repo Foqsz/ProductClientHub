@@ -5,7 +5,7 @@ using ProductClientHub.Communication.Responses;
 using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
-using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Domain.Services.loggedClient;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.Application.UseCases.Users.Update;
@@ -15,24 +15,24 @@ public class UpdateClientUseCase : IUpdateClientUseCase
     private readonly IClientWriteOnlyRepository _clientWriteOnlyRepository;
     private readonly IClientReadOnlyRepository _clientReadOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILoggedUser _loggedUser;
+    private readonly ILoggedClient _loggedClient;
 
     public UpdateClientUseCase(IClientWriteOnlyRepository clientWriteOnlyRepository,
         IClientReadOnlyRepository clientReadOnlyRepository,
         IUnitOfWork unitOfWork,
-        ILoggedUser loggedUser)
+        ILoggedClient loggedClient)
     {
         _clientWriteOnlyRepository = clientWriteOnlyRepository;
         _clientReadOnlyRepository = clientReadOnlyRepository;
         _unitOfWork = unitOfWork;
-        _loggedUser = loggedUser;
+        _loggedClient = loggedClient;
     }
 
     public async Task<ResponseClientUpdatedJson> Execute(RequestShortClientJson request)
     {
         Validate(request);
 
-        var userLogged = await _loggedUser.User();
+        var userLogged = await _loggedClient.User();
 
         var client = await _clientReadOnlyRepository.GetById(userLogged.Id) ?? throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
 

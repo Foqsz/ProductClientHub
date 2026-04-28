@@ -6,7 +6,7 @@ using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.Product;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
-using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Domain.Services.loggedClient;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.Application.UseCases.Products.Update;
@@ -17,24 +17,24 @@ public class UploadProductUseCase : IUploadProductUseCase
     private readonly IClientReadOnlyRepository _clientReadOnlyRepository;
     private readonly IProductsReadOnlyRepository _productsReadOnlyRepository;
     private readonly IUploadProductOnlyRepository _productWriteOnlyRepository;
-    private readonly ILoggedUser _loggedUser;
+    private readonly ILoggedClient _loggedClient;
 
     public UploadProductUseCase(IUnitOfWork unitOfWork,
         IUploadProductOnlyRepository productWriteOnlyRepository,
         IClientReadOnlyRepository clientReadOnlyRepository,
         IProductsReadOnlyRepository productsReadOnlyRepository,
-        ILoggedUser loggedUser)
+        ILoggedClient loggedClient)
     {
         _unitOfWork = unitOfWork;
         _productWriteOnlyRepository = productWriteOnlyRepository;
         _clientReadOnlyRepository = clientReadOnlyRepository;
         _productsReadOnlyRepository = productsReadOnlyRepository;
-        _loggedUser = loggedUser;
+        _loggedClient = loggedClient;
     }
 
     public async Task<ResponseShortProductJson> Execute(Guid productId, RequestProductJson request)
     {
-        var client = await _loggedUser.User();
+        var client = await _loggedClient.User();
         await Validate(client.Id, request);
 
         var product = await _productsReadOnlyRepository.GetById(productId) ?? throw new NotFoundException(ResourceMessagesExceptions.PRODUCT_NOTFOUND);

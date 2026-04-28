@@ -1,19 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductClientHub.Domain.Entities;
 using ProductClientHub.Domain.Security.Tokens;
-using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Domain.Services.loggedClient;
 using ProductClientHub.Infrastructure.Database;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace ProductClientHub.Infrastructure.Services;
 
-public class LoggedUser : ILoggedUser
+public class loggedClient : ILoggedClient
 {
     private readonly ProductClientHubDbContext _dbContext;
     private readonly ITokenProvider _tokenProvider;
 
-    public LoggedUser(ProductClientHubDbContext dbContext, ITokenProvider tokenProvider)
+    public loggedClient(ProductClientHubDbContext dbContext, ITokenProvider tokenProvider)
     {
         _dbContext = dbContext;
         _tokenProvider = tokenProvider;
