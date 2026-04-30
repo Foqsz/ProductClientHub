@@ -5,6 +5,7 @@ using CommonTestUtilities.Requests;
 using ProductClientHub.Application.UseCases.Users.Update;
 using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Exceptions.ExceptionsBase;
+using ProductClientHub.Infrastructure.Services;
 using Shouldly;
 
 namespace UseCase.Test.Client.Update;
