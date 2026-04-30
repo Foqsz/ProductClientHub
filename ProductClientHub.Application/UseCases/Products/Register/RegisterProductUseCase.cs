@@ -6,7 +6,7 @@ using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.Product;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
-using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Domain.Services.loggedClient;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.Application.UseCases.Products.Register;
@@ -16,22 +16,22 @@ public class RegisterProductUseCase : IRegisterProductUseCase
     private readonly IProductsWriteOnlyRepository _productsWriteOnlyRepository;
     private readonly IClientReadOnlyRepository _clientReadOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILoggedUser _loggedUser;
+    private readonly ILoggedClient _loggedClient;
 
     public RegisterProductUseCase(IProductsWriteOnlyRepository productsWriteOnlyRepository,
         IUnitOfWork unitOfWork,
         IClientReadOnlyRepository clientReadOnlyRepository,
-        ILoggedUser loggedUser)
+        ILoggedClient loggedClient)
     {
         _productsWriteOnlyRepository = productsWriteOnlyRepository;
         _unitOfWork = unitOfWork;
         _clientReadOnlyRepository = clientReadOnlyRepository;
-        _loggedUser = loggedUser;
+        _loggedClient = loggedClient;
     }
 
     public async Task<ResponseShortProductJson> Execute(RequestProductJson request)
     {
-        var user = await _loggedUser.User();
+        var user = await _loggedClient.User();
 
         await Validate(user.Id, request);
 

@@ -1,8 +1,8 @@
 ﻿using ProductClientHub.Domain.Entities;
 
-namespace ProductClientHub.Domain.Services.LoggedUser;
+namespace ProductClientHub.Domain.Services.loggedClient;
 
-public interface ILoggedUser
+public interface ILoggedClient
 {
     public Task<Client> User();
 }

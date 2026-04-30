@@ -21,7 +21,7 @@ using System.Reflection;
 using ProductClientHub.Domain.Security.Tokens;
 using ProductClientHub.Infrastructure.Security.Tokens.Acess.Generator;
 using ProductClientHub.Infrastructure.Security.Tokens.Acess.Validator;
-using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Domain.Services.loggedClient;
 using ProductClientHub.Domain.Services.Messaging;
 using ProductClientHub.Infrastructure.Services;
 using ProductClientHub.Infrastructure.Messaging.RabbitMq;
@@ -37,7 +37,7 @@ public static class DependencyInjectionExtension
         AddFluentMigrator_PostgreSql(services, configuration);
         AddTokens(services, configuration);
         AddPasswordEncrpter(services);
-        AddLoggedUser(services);
+        AddloggedClient(services);
         AddMessaging(services, configuration);
     }
 
@@ -78,7 +78,7 @@ public static class DependencyInjectionExtension
         //services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
     }
 
-    private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
+    private static void AddloggedClient(IServiceCollection services) => services.AddScoped<ILoggedClient, loggedClient>();
 
     private static void AddMessaging(IServiceCollection services, IConfiguration configuration)
     {

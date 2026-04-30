@@ -16,7 +16,8 @@ public class ClientBuilder
             .RuleFor(client => client.Id, () => Guid.NewGuid())
             .RuleFor(client => client.Name, (f) => f.Person.FirstName)
             .RuleFor(client => client.Email, (f, user) => f.Internet.Email(user.Name))
-            .RuleFor(client => client.Password, (f) => passwordEncripter.Encrypt(password));
+            .RuleFor(client => client.Password, (f) => passwordEncripter.Encrypt(password))
+            .RuleFor(client => client.Products, () => new List<Product>());
 
         return (client, password);
     }

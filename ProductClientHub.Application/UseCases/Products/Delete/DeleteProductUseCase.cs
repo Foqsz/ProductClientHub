@@ -1,7 +1,7 @@
 ﻿using ProductClientHub.Domain.Extensions;
 using ProductClientHub.Domain.Repositories.Product;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
-using ProductClientHub.Domain.Services.LoggedUser;
+using ProductClientHub.Domain.Services.loggedClient;
 using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.Application.UseCases.Products.Delete;
@@ -10,20 +10,20 @@ public class DeleteProductUseCase : IDeleteProductUseCase
 {
     private readonly IDeleteProductOnlyRepository _productsWriteOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILoggedUser _loggedUser;
+    private readonly ILoggedClient _loggedClient;
 
     public DeleteProductUseCase(IDeleteProductOnlyRepository productsWriteOnlyRepository,
         IUnitOfWork unitOfWork,
-        ILoggedUser loggedUser)
+        ILoggedClient loggedClient)
     {
         _productsWriteOnlyRepository = productsWriteOnlyRepository;
         _unitOfWork = unitOfWork;
-        _loggedUser = loggedUser;
+        _loggedClient = loggedClient;
     }
 
     public async Task Execute(Guid productId)
     {
-        var client = await _loggedUser.User();
+        var client = await _loggedClient.User();
 
         var productExist = await _productsWriteOnlyRepository.Delete(client.Id, productId);
 
