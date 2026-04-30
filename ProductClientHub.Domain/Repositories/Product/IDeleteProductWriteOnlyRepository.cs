@@ -1,6 +1,6 @@
 ﻿namespace ProductClientHub.Domain.Repositories.Product;
 
-public interface IDeleteProductOnlyRepository
+public interface IDeleteProductWriteOnlyRepository
 {
     Task<bool> Delete(Guid clientId, Guid productId);
 }

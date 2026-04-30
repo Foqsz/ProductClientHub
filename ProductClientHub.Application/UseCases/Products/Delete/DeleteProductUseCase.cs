@@ -8,11 +8,11 @@ namespace ProductClientHub.Application.UseCases.Products.Delete;
 
 public class DeleteProductUseCase : IDeleteProductUseCase
 {
-    private readonly IDeleteProductOnlyRepository _productsWriteOnlyRepository;
+    private readonly IDeleteProductWriteOnlyRepository _productsWriteOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILoggedClient _loggedClient;
 
-    public DeleteProductUseCase(IDeleteProductOnlyRepository productsWriteOnlyRepository,
+    public DeleteProductUseCase(IDeleteProductWriteOnlyRepository productsWriteOnlyRepository,
         IUnitOfWork unitOfWork,
         ILoggedClient loggedClient)
     {

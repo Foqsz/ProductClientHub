@@ -5,7 +5,7 @@ using ProductClientHub.Infrastructure.Database;
 
 namespace ProductClientHub.Infrastructure.DataAcess.Repositories.Products;
 
-public class ProductsWriteOnlyRepository : IProductsWriteOnlyRepository, IDeleteProductOnlyRepository, IUploadProductOnlyRepository
+public class ProductsWriteOnlyRepository : IProductsWriteOnlyRepository, IDeleteProductWriteOnlyRepository, IUploadProductOnlyRepository
 {
     private readonly ProductClientHubDbContext _dbContext;
 
