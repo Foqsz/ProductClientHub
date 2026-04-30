@@ -63,7 +63,7 @@ public static class DependencyInjectionExtension
         //products
         services.AddScoped<IProductsWriteOnlyRepository, ProductsWriteOnlyRepository>();
         services.AddScoped<IProductsReadOnlyRepository, ProductsReadOnlyRepository>();
-        services.AddScoped<IDeleteProductOnlyRepository, ProductsWriteOnlyRepository>();
+        services.AddScoped<IDeleteProductWriteOnlyRepository, ProductsWriteOnlyRepository>();
         services.AddScoped<IUploadProductOnlyRepository, ProductsWriteOnlyRepository>();
     }
 
