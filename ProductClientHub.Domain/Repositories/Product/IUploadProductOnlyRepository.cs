@@ -1,6 +1,6 @@
 ﻿namespace ProductClientHub.Domain.Repositories.Product;
 
-public interface IUploadProductOnlyRepository
+public interface IUpdateProductOnlyRepository
 {
     Task Update(Guid clientId, Guid productId, Domain.Entities.Product product);
 }

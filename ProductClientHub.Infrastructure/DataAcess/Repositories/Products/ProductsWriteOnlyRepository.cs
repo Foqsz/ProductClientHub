@@ -5,7 +5,7 @@ using ProductClientHub.Infrastructure.Database;
 
 namespace ProductClientHub.Infrastructure.DataAcess.Repositories.Products;
 
-public class ProductsWriteOnlyRepository : IProductsWriteOnlyRepository, IDeleteProductWriteOnlyRepository, IUploadProductOnlyRepository
+public class ProductsWriteOnlyRepository : IProductsWriteOnlyRepository, IDeleteProductWriteOnlyRepository, IUpdateProductOnlyRepository
 {
     private readonly ProductClientHubDbContext _dbContext;
 
@@ -32,9 +32,9 @@ public class ProductsWriteOnlyRepository : IProductsWriteOnlyRepository, IDelete
 
     public async Task Update(Guid clientId, Guid productId, Product product)
     {
-        var productUpload = await _dbContext.Products.Where(p => p.ClientId == clientId && p.Id == productId).FirstOrDefaultAsync();
+        var productUpdate = await _dbContext.Products.Where(p => p.ClientId == clientId && p.Id == productId).FirstOrDefaultAsync();
 
-        if (productUpload is null) return;
+        if (productUpdate is null) return;
 
         var createdOn = await _dbContext.Products
             .Where(x => x.Id == product.Id)
@@ -43,7 +43,7 @@ public class ProductsWriteOnlyRepository : IProductsWriteOnlyRepository, IDelete
 
         product.CreatedOn = DateTime.SpecifyKind(createdOn, DateTimeKind.Utc);
 
-        _dbContext.Products.Update(productUpload);
+        _dbContext.Products.Update(productUpdate);
 
         _dbContext.Entry(product).Property(x => x.CreatedOn).IsModified = false;
     }

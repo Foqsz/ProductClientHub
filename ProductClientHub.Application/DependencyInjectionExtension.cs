@@ -43,7 +43,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGetAllProductsUseCase, GetAllProductsUseCase>();
         services.AddScoped<IGetProductByIdUseCase, GetProductByIdUseCase>();
         services.AddScoped<IDeleteProductUseCase, DeleteProductUseCase>();  
-        services.AddScoped<IUploadProductUseCase, UploadProductUseCase>();
+        services.AddScoped<IUpdateProductUseCase, UpdateProductUseCase>();
 
         //login
         services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();

@@ -64,7 +64,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IProductsWriteOnlyRepository, ProductsWriteOnlyRepository>();
         services.AddScoped<IProductsReadOnlyRepository, ProductsReadOnlyRepository>();
         services.AddScoped<IDeleteProductWriteOnlyRepository, ProductsWriteOnlyRepository>();
-        services.AddScoped<IUploadProductOnlyRepository, ProductsWriteOnlyRepository>();
+        services.AddScoped<IUpdateProductOnlyRepository, ProductsWriteOnlyRepository>();
     }
 
     private static void AddTokens(IServiceCollection services, IConfiguration configuration)

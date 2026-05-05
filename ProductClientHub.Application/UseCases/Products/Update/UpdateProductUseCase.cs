@@ -11,16 +11,16 @@ using ProductClientHub.Exceptions.ExceptionsBase;
 
 namespace ProductClientHub.Application.UseCases.Products.Update;
 
-public class UploadProductUseCase : IUploadProductUseCase
+public class UpdateProductUseCase : IUpdateProductUseCase
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClientReadOnlyRepository _clientReadOnlyRepository;
     private readonly IProductsReadOnlyRepository _productsReadOnlyRepository;
-    private readonly IUploadProductOnlyRepository _productWriteOnlyRepository;
+    private readonly IUpdateProductOnlyRepository _productWriteOnlyRepository;
     private readonly ILoggedClient _loggedClient;
 
-    public UploadProductUseCase(IUnitOfWork unitOfWork,
-        IUploadProductOnlyRepository productWriteOnlyRepository,
+    public UpdateProductUseCase(IUnitOfWork unitOfWork,
+        IUpdateProductOnlyRepository productWriteOnlyRepository,
         IClientReadOnlyRepository clientReadOnlyRepository,
         IProductsReadOnlyRepository productsReadOnlyRepository,
         ILoggedClient loggedClient)

@@ -34,7 +34,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update([FromBody] RequestProductJson request, 
         [FromRoute] Guid productId, 
-        [FromServices] IUploadProductUseCase useCase)
+        [FromServices] IUpdateProductUseCase useCase)
     {
         var response = await useCase.Execute(productId, request);
 
