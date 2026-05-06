@@ -5,10 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using ProductClientHub.Domain.Repositories.Client;
-using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Domain.Repositories.Product;
+using ProductClientHub.Domain.Repositories.UnitOfWork;
 using ProductClientHub.Domain.Security.Tokens;
 using ProductClientHub.Domain.Services.loggedClient;
+using ProductClientHub.Exceptions.ExceptionsBase;
 using ClientEntity = ProductClientHub.Domain.Entities.Client;
 using ProductEntity = ProductClientHub.Domain.Entities.Product;
 
@@ -244,7 +245,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
         public Task<ClientEntity> User()
         {
-            var user = _clientStore.Clients.First();
+            var user = _clientStore.Clients.FirstOrDefault();
+
+            if (user is null)
+            {
+                throw new NotFoundException(ResourceMessagesExceptions.CLIENT_NOCONTENT);
+            }
+
             return Task.FromResult(user);
         }
     }
