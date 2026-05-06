@@ -6,20 +6,29 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using ProductClientHub.Domain.Repositories.Client;
 using ProductClientHub.Domain.Repositories.UnitOfWork;
+using ProductClientHub.Domain.Repositories.Product;
 using ProductClientHub.Domain.Security.Tokens;
 using ProductClientHub.Domain.Services.loggedClient;
 using ClientEntity = ProductClientHub.Domain.Entities.Client;
+using ProductEntity = ProductClientHub.Domain.Entities.Product;
 
 namespace WebApi.Test;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly TestClientStore _clientStore = new();
+    private readonly TestProductStore _productStore = new();
 
     public IList<ClientEntity> ClientsToReturn
     {
         get => _clientStore.Clients;
         set => _clientStore.Clients = value;
+    }
+
+    public IList<ProductEntity> ProductsToReturn
+    {
+        get => _productStore.Products;
+        set => _productStore.Products = value;
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -40,6 +49,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             services.AddSingleton(_clientStore);
+            services.AddSingleton(_productStore);
 
             services.RemoveAll<IClientReadOnlyRepository>();
             services.RemoveAll<IClientWriteOnlyRepository>();
@@ -47,6 +57,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.RemoveAll<IDeleteClientRepository>();
             services.RemoveAll<IUnitOfWork>();
             services.RemoveAll<ILoggedClient>();
+            services.RemoveAll<IProductsReadOnlyRepository>();
+            services.RemoveAll<IProductsWriteOnlyRepository>();
+            services.RemoveAll<IDeleteProductWriteOnlyRepository>();
+            services.RemoveAll<IUpdateProductOnlyRepository>();
 
             // Remove all hosted services to prevent background services from running during tests
             services.RemoveAll(typeof(IHostedService));
@@ -57,6 +71,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.AddScoped<IDeleteClientRepository, FakeDeleteClientRepository>();
             services.AddScoped<IUnitOfWork, FakeUnitOfWork>();
             services.AddScoped<ILoggedClient, FakeloggedClient>();
+            services.AddScoped<IProductsReadOnlyRepository, FakeProductsReadOnlyRepository>();
+            services.AddScoped<IProductsWriteOnlyRepository, FakeProductsWriteOnlyRepository>();
+            services.AddScoped<IDeleteProductWriteOnlyRepository, FakeProductsWriteOnlyRepository>();
+            services.AddScoped<IUpdateProductOnlyRepository, FakeProductsWriteOnlyRepository>();
         });
     }
 
@@ -140,6 +158,81 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         }
     }
 
+    private sealed class FakeProductsReadOnlyRepository : IProductsReadOnlyRepository
+    {
+        private readonly TestProductStore _productStore;
+
+        public FakeProductsReadOnlyRepository(TestProductStore productStore)
+        {
+            _productStore = productStore;
+        }
+
+        public Task<IList<ProductEntity>> GetAll()
+            => Task.FromResult<IList<ProductEntity>>(_productStore.Products);
+
+        public Task<ProductEntity?> GetById(Guid productId)
+        {
+            var product = _productStore.Products.FirstOrDefault(p => p.Id == productId);
+            return Task.FromResult<ProductEntity?>(product);
+        }
+    }
+
+    private sealed class FakeProductsWriteOnlyRepository : IProductsWriteOnlyRepository, IDeleteProductWriteOnlyRepository, IUpdateProductOnlyRepository
+    {
+        private readonly TestProductStore _productStore;
+        private readonly TestClientStore _clientStore;
+
+        public FakeProductsWriteOnlyRepository(TestProductStore productStore, TestClientStore clientStore)
+        {
+            _productStore = productStore;
+            _clientStore = clientStore;
+        }
+
+        public Task Add(ProductEntity product)
+        {
+            if (product.Client is null)
+            {
+                var client = _clientStore.Clients.FirstOrDefault(c => c.Id == product.ClientId);
+                if (client is not null)
+                {
+                    product.Client = client;
+                    client.Products.Add(product);
+                }
+            }
+
+            _productStore.Products.Add(product);
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> Delete(Guid clientId, Guid productId)
+        {
+            var product = _productStore.Products.FirstOrDefault(p => p.Id == productId && p.ClientId == clientId);
+            if (product is null)
+            {
+                return Task.FromResult(false);
+            }
+
+            _productStore.Products.Remove(product);
+            var client = _clientStore.Clients.FirstOrDefault(c => c.Id == clientId);
+            client?.Products.Remove(product);
+            return Task.FromResult(true);
+        }
+
+        public Task Update(Guid clientId, Guid productId, ProductEntity product)
+        {
+            var existingProduct = _productStore.Products.FirstOrDefault(p => p.Id == productId && p.ClientId == clientId);
+            if (existingProduct is null)
+            {
+                return Task.CompletedTask;
+            }
+
+            existingProduct.Name = product.Name;
+            existingProduct.Brand = product.Brand;
+            existingProduct.Price = product.Price;
+            return Task.CompletedTask;
+        }
+    }
+
     private sealed class FakeloggedClient : ILoggedClient
     {
         private readonly TestClientStore _clientStore;
@@ -164,5 +257,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     private sealed class TestClientStore
     {
         public IList<ClientEntity> Clients { get; set; } = [];
+    }
+
+    private sealed class TestProductStore
+    {
+        public IList<ProductEntity> Products { get; set; } = [];
     }
 }
